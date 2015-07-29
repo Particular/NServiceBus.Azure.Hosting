@@ -52,7 +52,7 @@ namespace NServiceBus.Hosting.Azure
                 Configurer.ConfigureProperty<DynamicHostMonitor>(t => t.Interval, configSection.UpdateInterval);
             });
 
-            o.UsePersistence<AzureStoragePersistence>();
+            o.UsePersistence<InMemoryPersistence>();
             o.DiscardFailedMessagesInsteadOfSendingToErrorQueue();
 
             profileManager.ActivateProfileHandlers(o);
