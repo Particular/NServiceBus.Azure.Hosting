@@ -88,6 +88,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\When_using_the_azure_configuration_source.cs" />
     <Compile Include="Hosting\When_checking_if_roleenvironment_is_available.cs" />
     <Compile Include="Hosting\When_killing_processes.cs" />
   </ItemGroup>
