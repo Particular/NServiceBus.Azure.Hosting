@@ -35,12 +35,15 @@ namespace NServiceBus.Hosting.Azure
                                                };
                     
                     var process = new Process {StartInfo = processStartInfo, EnableRaisingEvents = true};
-
+                    var processWasKilledOnPurpose = false;
+                    
                     process.ErrorDataReceived += (o, args) =>
                     {
                         logger.Error(args.Data);
-
-                        if (RecycleRoleOnError) SafeRoleEnvironment.RequestRecycle();
+                        if (process.ExitCode != 0 && !processWasKilledOnPurpose)
+                        {
+                            if (RecycleRoleOnError) SafeRoleEnvironment.RequestRecycle();
+                        }
                     };
 
                     process.OutputDataReceived += (o, args) => logger.Debug(args.Data);
@@ -48,10 +51,17 @@ namespace NServiceBus.Hosting.Azure
                     process.Exited += (o, args) =>
                     {
                         bool trash;
-                        if (process.ExitCode != 0 && !StoppedProcessIds.TryRemove(process.Id, out trash))
+                        var wasInList = StoppedProcessIds.TryRemove(process.Id, out trash);
+                        //unhook the errorDataHandler so that it does not fire and cause a recycle.
+                        if(wasInList)
+                        {
+                            processWasKilledOnPurpose = true;
+                        }
+                        if (process.ExitCode != 0 && !processWasKilledOnPurpose)
                         {
                             if (RecycleRoleOnError) SafeRoleEnvironment.RequestRecycle();
                         }
+
                     };
 
                     process.Start();
