@@ -4,12 +4,12 @@
     <id>NServiceBus.Hosting.Azure.HostProcess</id>
     <title>NServiceBus Hosting Azure HostProcess</title>
     <version>$version$</version>
-    <authors>NServiceBus Ltd</authors>
-    <owners>NServiceBus Ltd</owners>
-    <licenseUrl>http://particular.net/LicenseAgreement</licenseUrl>
-    <projectUrl>http://particular.net/</projectUrl>
-    <iconUrl>http://s3.amazonaws.com/nuget.images/NServiceBus_32.png</iconUrl>
-    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <authors>$authors$</authors>
+    <owners>$owners$</owners>
+    <licenseUrl>$licenseUrl$</licenseUrl>
+    <projectUrl>$projectUrl$</projectUrl>
+    <iconUrl>$iconUrl$</iconUrl>
+    <requireLicenseAcceptance>$requireLicenseAcceptance$</requireLicenseAcceptance>
     <description>The process used when sharing an azure instance between multiple NServicebus endpoints</description>
     <copyright>$copyright$</copyright>
     <tags>nservicebus servicebus msmq cqrs publish subscribe</tags>
