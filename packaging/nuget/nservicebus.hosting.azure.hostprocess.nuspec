@@ -11,7 +11,7 @@
     <iconUrl>http://s3.amazonaws.com/nuget.images/NServiceBus_32.png</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>The process used when sharing an azure instance between multiple NServicebus endpoints</description>
-    <copyright>Copyright 2010-2014 NServiceBus. All rights reserved</copyright>
+    <copyright>$copyright$</copyright>
     <tags>nservicebus servicebus msmq cqrs publish subscribe</tags>
     <dependencies>
       <dependency id="CommonServiceLocator" version="[1.0.0.0,1.3]" />
