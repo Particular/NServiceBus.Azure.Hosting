@@ -24,6 +24,6 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="..\..\src\binaries\NServiceBus.Hosting.Azure.HostProcess.???" target="lib\net45" />
+    <file src="..\..\src\binaries\NServiceBus.Hosting.Azure.HostProcess.???" target="lib\net452" />
   </files>
 </package>
