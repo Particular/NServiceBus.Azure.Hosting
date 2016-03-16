@@ -7,6 +7,7 @@ namespace NServiceBus.Hosting.Azure
     using System.Security.Cryptography;
     using System.Text;
     using System.Threading;
+    using System.Threading.Tasks;
     using Config;
     using Config.ConfigurationSource;
     using Helpers;
@@ -14,7 +15,6 @@ namespace NServiceBus.Hosting.Azure
     using Integration.Azure;
     using Logging;
     using NServiceBus.Azure;
-    using Unicast;
 
     /// <summary>
     ///     A generic host that can be used to provide hosting services in different environments
@@ -36,10 +36,11 @@ namespace NServiceBus.Hosting.Azure
 
             endpointNameToUse = specifier.GetType().Namespace ?? specifier.GetType().Assembly.GetName().Name;
 
+            List<Assembly> assembliesToScan;
+
             if (scannableAssembliesFullName == null || !scannableAssembliesFullName.Any())
             {
                 var assemblyScanner = new AssemblyScanner();
-                assemblyScanner.MustReferenceAtLeastOneAssembly.Add(typeof(IHandleMessages<>).Assembly);
                 assembliesToScan = assemblyScanner
                     .GetScannableAssemblies()
                     .Assemblies;
@@ -63,13 +64,9 @@ namespace NServiceBus.Hosting.Azure
         {
             try
             {
-                PerformConfiguration();
+                var startableEndpoint = PerformConfiguration().GetAwaiter().GetResult();
 
-                if (bus != null && !bus.Settings.Get<bool>("Endpoint.SendOnly"))
-                {
-                    bus.Start();
-                }
-
+                bus = startableEndpoint.Start().GetAwaiter().GetResult();
             }
             catch (Exception ex)
             {
@@ -85,7 +82,7 @@ namespace NServiceBus.Hosting.Azure
         {
             if (bus != null)
             {
-                bus.Dispose();
+                bus.Stop().GetAwaiter().GetResult();
 
                 bus = null;
             }
@@ -96,12 +93,10 @@ namespace NServiceBus.Hosting.Azure
         /// </summary>
         public void Install(string username)
         {
-            PerformConfiguration(builder => builder.EnableInstallers(username));
-
-            bus.Builder.Dispose();
+            PerformConfiguration(builder => builder.EnableInstallers(username)).GetAwaiter().GetResult();
         }
 
-        void PerformConfiguration(Action<BusConfiguration> moreConfiguration = null)
+        async Task<IStartableEndpoint> PerformConfiguration(Action<EndpointConfiguration> moreConfiguration = null)
         {
             var loggingConfigurers = profileManager.GetLoggingConfigurer();
             foreach (var loggingConfigurer in loggingConfigurers)
@@ -109,10 +104,10 @@ namespace NServiceBus.Hosting.Azure
                 loggingConfigurer.Configure(specifier);
             }
 
-            var configuration = new BusConfiguration();
+            var configuration = new EndpointConfiguration();
 
             configuration.EndpointName(endpointNameToUse);
-            configuration.AssembliesToScan(assembliesToScan);
+
             configuration.DefineCriticalErrorAction(OnCriticalError);
 
             if (SafeRoleEnvironment.IsAvailable)
@@ -138,20 +133,22 @@ namespace NServiceBus.Hosting.Azure
 
             specifier.Customize(configuration);
             RoleManager.TweakConfigurationBuilder(specifier, configuration);
-            bus = (UnicastBus)Bus.Create(configuration);
+            return await Endpoint.Create(configuration).ConfigureAwait(false);
         }
 
         // Windows hosting behavior when critical error occurs is suicide.
-        void OnCriticalError(string errorMessage, Exception exception)
+        Task OnCriticalError(ICriticalErrorContext context)
         {
             if (Environment.UserInteractive)
             {
                 Thread.Sleep(10000); // so that user can see on their screen the problem
             }
 
-            var message = string.Format("The following critical error was encountered by NServiceBus:\n{0}\nNServiceBus is shutting down.", errorMessage);
+            var message = string.Format("The following critical error was encountered by NServiceBus:\n{0}\nNServiceBus is shutting down.", context.Error);
             LogManager.GetLogger(typeof(GenericHost)).Fatal(message);
-            Environment.FailFast(message, exception);
+            Environment.FailFast(message, context.Exception);
+
+            return Task.FromResult(0);
         }
 
         string[] AddProfilesFromConfiguration(IEnumerable<string> args)
@@ -180,12 +177,10 @@ namespace NServiceBus.Hosting.Azure
                 return new Guid(hashBytes);
             }
         }
-
-        List<Assembly> assembliesToScan;
-
+        
         ProfileManager profileManager;
         IConfigureThisEndpoint specifier;
-        UnicastBus bus;
+        IEndpointInstance bus;
 
         string endpointNameToUse;
     }

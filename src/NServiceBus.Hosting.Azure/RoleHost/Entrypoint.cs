@@ -110,10 +110,7 @@ namespace NServiceBus.Hosting.Azure
                 {
                     ThrowExceptions = false
                 };
-                assemblyScanner.MustReferenceAtLeastOneAssembly.Add(typeof(IHandleMessages<>).Assembly);
-                assemblyScanner.MustReferenceAtLeastOneAssembly.Add(typeof(IConfigureThisEndpoint).Assembly);
-                assemblyScanner.MustReferenceAtLeastOneAssembly.Add(typeof(NServiceBusRoleEntrypoint).Assembly);
-
+     
                 scannedAssemblies = assemblyScanner.GetScannableAssemblies().Assemblies;
             }
             return scannedAssemblies.SelectMany(
