@@ -5,14 +5,8 @@
 
     static class RoleManager
     {
-        public static void TweakConfigurationBuilder(IConfigureThisEndpoint specifier, BusConfiguration config)
-        {
-            if (specifier is AsA_Worker)
-            {
-                config.Transactions().Enable();
-                config.EnableFeature<Features.Sagas>();
-            }
-            
+        public static void TweakConfigurationBuilder(IConfigureThisEndpoint specifier, EndpointConfiguration config)
+        { 
             Type transportDefinitionType;
             if (TryGetTransportDefinitionType(specifier, out transportDefinitionType))
             {

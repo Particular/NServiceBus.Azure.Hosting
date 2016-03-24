@@ -202,10 +202,7 @@
                 {
                     ThrowExceptions = false
                 };
-                assemblyScanner.MustReferenceAtLeastOneAssembly.Add(typeof(IHandleMessages<>).Assembly);
-                assemblyScanner.MustReferenceAtLeastOneAssembly.Add(typeof(IConfigureThisEndpoint).Assembly);
-                assemblyScanner.MustReferenceAtLeastOneAssembly.Add(typeof(Program).Assembly);
-
+     
                 scannedAssemblies = assemblyScanner.GetScannableAssemblies().Assemblies;
             }
 
