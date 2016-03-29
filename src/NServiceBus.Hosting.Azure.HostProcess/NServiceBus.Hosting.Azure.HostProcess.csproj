@@ -107,7 +107,7 @@
     <Compile Include="Arguments\HostArguments.cs" />
     <Compile Include="HostServiceLocator.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="AssemblyInfo.cs" />
     <Compile Include="WindowsHost.cs" />
   </ItemGroup>
   <ItemGroup>
