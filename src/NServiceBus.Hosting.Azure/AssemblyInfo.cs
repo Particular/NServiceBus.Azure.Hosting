@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("NServiceBus.Hosting.Azure")]
-[assembly: AssemblyCopyright("Copyright 2010-2017 NServiceBus. All rights reserved")]
+[assembly: AssemblyCopyright("Copyright 2010-2016 NServiceBus. All rights reserved")]
 [assembly: AssemblyProduct("NServiceBus.Hosting.Azure")]
 [assembly: AssemblyCompany("NServiceBus Ltd.")]
 [assembly: AssemblyConfiguration("release")]
