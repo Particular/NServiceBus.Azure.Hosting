@@ -125,6 +125,7 @@
     <Compile Include="Profiles\Hosting\IProfile.cs" />
     <Compile Include="Profiles\Hosting\IWantTheListOfActiveProfiles.cs" />
     <Compile Include="Profiles\Hosting\ProfileManager.cs" />
+    <Compile Include="Resharper.Annotations.g.cs" />
     <Compile Include="RoleHost\Entrypoint.cs" />
     <Compile Include="DynamicHost\DynamicHostController.cs" />
     <Compile Include="Profiles\Development.cs" />
@@ -136,6 +137,11 @@
     <Compile Include="Roles\AsA_Worker.cs" />
     <Compile Include="Roles\RoleManager.cs" />
     <Compile Include="Roles\UsingTransport.cs" />
+    <Compile Include="StartableAndStoppable\EndpointConfigurationExtensions.cs" />
+    <Compile Include="StartableAndStoppable\IWantToRunWhenEndpointStartsAndStops.cs" />
+    <Compile Include="StartableAndStoppable\StartableAndStoppableFeature.cs" />
+    <Compile Include="StartableAndStoppable\StartableAndStoppableRunner.cs" />
+    <Compile Include="TaskEx.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="FodyWeavers.xml" />
