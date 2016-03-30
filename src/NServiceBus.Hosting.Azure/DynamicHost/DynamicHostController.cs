@@ -20,7 +20,7 @@ namespace NServiceBus.Hosting.Azure
         public void Start()
         {
 
-            var endpointConfiguration = new EndpointConfiguration();
+            var endpointConfiguration = new EndpointConfiguration("DynamicHostController");
             endpointConfiguration.AzureConfigurationSource();
             var configSection = endpointConfiguration.GetSettings().GetConfigSection<DynamicHostControllerConfig>() ?? new DynamicHostControllerConfig();
             

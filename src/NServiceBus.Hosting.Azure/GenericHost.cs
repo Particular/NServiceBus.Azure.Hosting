@@ -104,10 +104,7 @@ namespace NServiceBus.Hosting.Azure
                 loggingConfigurer.Configure(specifier);
             }
 
-            var configuration = new EndpointConfiguration();
-
-            configuration.EndpointName(endpointNameToUse);
-
+            var configuration = new EndpointConfiguration(endpointNameToUse);
             configuration.DefineCriticalErrorAction(OnCriticalError);
 
             if (SafeRoleEnvironment.IsAvailable)
