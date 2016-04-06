@@ -19,11 +19,9 @@ namespace NServiceBus.Hosting.Azure
 
         public void Start()
         {
-
             var endpointConfiguration = new EndpointConfiguration("DynamicHostController");
             endpointConfiguration.AzureConfigurationSource();
-            var configSection = endpointConfiguration.GetSettings().GetConfigSection<DynamicHostControllerConfig>() ?? new DynamicHostControllerConfig();
-            
+
             endpointConfiguration.UsePersistence<InMemoryPersistence>();
 
             profileManager.ActivateProfileHandlers(endpointConfiguration);
@@ -31,6 +29,8 @@ namespace NServiceBus.Hosting.Azure
 
             endpointConfiguration.SendOnly();
             endpoint = Endpoint.Start(endpointConfiguration).GetAwaiter().GetResult();
+
+            var configSection = endpointConfiguration.GetSettings().GetConfigSection<DynamicHostControllerConfig>() ?? new DynamicHostControllerConfig();
 
             loader = new DynamicEndpointLoader
             {
