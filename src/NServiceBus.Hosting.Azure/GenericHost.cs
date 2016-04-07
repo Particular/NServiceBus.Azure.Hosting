@@ -141,7 +141,7 @@ namespace NServiceBus.Hosting.Azure
                 Thread.Sleep(10000); // so that user can see on their screen the problem
             }
 
-            var message = string.Format("The following critical error was encountered by NServiceBus:\n{0}\nNServiceBus is shutting down.", context.Error);
+            var message = $"The following critical error was encountered by NServiceBus:\n{context.Error}\nNServiceBus is shutting down.";
             LogManager.GetLogger(typeof(GenericHost)).Fatal(message);
             Environment.FailFast(message, context.Exception);
 

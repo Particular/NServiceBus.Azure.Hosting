@@ -88,9 +88,7 @@ namespace NServiceBus.Hosting.Azure
                 var endpointType = Type.GetType(endpoint, false);
                 if (endpointType == null)
                     throw new ConfigurationErrorsException(
-                        string.Format(
-                            "The 'EndpointConfigurationType' entry in the role config has specified to use the type '{0}' but that type could not be loaded.",
-                            endpoint));
+                        $"The 'EndpointConfigurationType' entry in the role config has specified to use the type '{endpoint}' but that type could not be loaded.");
 
                 return endpointType;
             }
@@ -110,7 +108,7 @@ namespace NServiceBus.Hosting.Azure
                 {
                     ThrowExceptions = false
                 };
-     
+
                 scannedAssemblies = assemblyScanner.GetScannableAssemblies().Assemblies;
             }
             return scannedAssemblies.SelectMany(
