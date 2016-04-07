@@ -39,7 +39,7 @@
 
             scannedAssemblies = scannedAssemblies ?? new List<Assembly>();
             var assemblylist = string.Join(";", scannedAssemblies.Select((s => s.ToString())));
-            args = args.Concat(new[]{String.Format(@"/scannedAssemblies={0}", assemblylist)}).ToArray();
+            args = args.Concat(new[]{$@"/scannedAssemblies={assemblylist}"}).ToArray();
 
             AppDomain.CurrentDomain.SetupInformation.AppDomainInitializerArguments = args;
 
@@ -153,7 +153,7 @@
         public static string GetEndpointId(object endpointConfiguration)
         {
             var endpointName = endpointConfiguration.GetType().FullName;
-            return string.Format("{0}_v{1}", endpointName, endpointConfiguration.GetType().Assembly.GetName().Version);
+            return $"{endpointName}_v{endpointConfiguration.GetType().Assembly.GetName().Version}";
         }
 
         static Type GetEndpointConfigurationType(HostArguments arguments)
@@ -166,7 +166,7 @@
                     var endpointType = Type.GetType(t, false);
                     if (endpointType == null)
                     {
-                        var message = string.Format("Command line argument 'endpointConfigurationType' has specified to use the type '{0}' but that type could not be loaded.", t);
+                        var message = $"Command line argument 'endpointConfigurationType' has specified to use the type '{t}' but that type could not be loaded.";
                         throw new ConfigurationErrorsException(message);
                     }
 
@@ -180,7 +180,7 @@
                 var endpointType = Type.GetType(endpoint, false);
                 if (endpointType == null)
                 {
-                    var message = string.Format("The 'EndpointConfigurationType' entry in the NServiceBus.Host.exe.config has specified to use the type '{0}' but that type could not be loaded.", endpoint);
+                    var message = $"The 'EndpointConfigurationType' entry in the NServiceBus.Host.exe.config has specified to use the type '{endpoint}' but that type could not be loaded.";
                     throw new ConfigurationErrorsException(message);
                 }
 

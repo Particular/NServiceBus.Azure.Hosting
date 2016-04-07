@@ -96,10 +96,8 @@ namespace NServiceBus.Hosting.Azure
             //As per MSDN "The Kill method executes asynchronously. After calling the Kill method, call the WaitForExit method to wait for the process to exit" 
             if (!process.WaitForExit(timeToWaitUntilProcessIsKilled))
             {
-                throw new UnableToKillProcessException(string.Format("Unable to kill process {0}", process.ProcessName));
+                throw new UnableToKillProcessException($"Unable to kill process {process.ProcessName}");
             }
         }
-        
     }
-
 }
