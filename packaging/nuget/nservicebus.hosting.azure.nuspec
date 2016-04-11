@@ -12,7 +12,7 @@
     <requireLicenseAcceptance>$requireLicenseAcceptance$</requireLicenseAcceptance>
     <description>The Azure Cloudservices Host for NServicebus</description>
     <copyright>$copyright$</copyright>
-    <tags>nservicebus servicebus msmq cqrs publish subscribe</tags>
+    <tags>$tags$</tags>
     <dependencies>
       <dependency id="WindowsAzure.Storage" version="[6.2.0, 7.0.0)" />
       <dependency id="Microsoft.Data.OData" version="[5.7.0, 6.0.0)" />
