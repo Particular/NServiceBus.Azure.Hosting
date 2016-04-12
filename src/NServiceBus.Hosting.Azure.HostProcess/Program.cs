@@ -39,7 +39,7 @@
 
             scannedAssemblies = scannedAssemblies ?? new List<Assembly>();
             var assemblylist = string.Join(";", scannedAssemblies.Select((s => s.ToString())));
-            args = args.Concat(new[]{$@"/scannedAssemblies={assemblylist}"}).ToArray();
+            args = args.Concat(new[]{$"/scannedAssemblies={assemblylist}"}).ToArray();
 
             AppDomain.CurrentDomain.SetupInformation.AppDomainInitializerArguments = args;
 
@@ -202,7 +202,7 @@
                 {
                     ThrowExceptions = false
                 };
-     
+
                 scannedAssemblies = assemblyScanner.GetScannableAssemblies().Assemblies;
             }
 
@@ -211,7 +211,7 @@
                 t => typeof(IConfigureThisEndpoint).IsAssignableFrom(t)
                      && t != typeof(IConfigureThisEndpoint)
                      && !t.IsAbstract));
-          
+
         }
 
         static void ValidateEndpoints(IEnumerable<Type> endpointConfigurationTypes)
