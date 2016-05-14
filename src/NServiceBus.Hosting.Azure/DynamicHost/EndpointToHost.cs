@@ -2,7 +2,7 @@ namespace NServiceBus.Hosting
 {
     using System;
     using System.IO;
-    using Ionic.Zip;
+    using System.IO.Compression;
     using Microsoft.WindowsAzure.Storage.Blob;
 
     class EndpointToHost
@@ -26,7 +26,7 @@ namespace NServiceBus.Hosting
         public DateTime LastUpdated { get; set; }
 
 
-        public string ExtractTo(string rootPath)
+        public void ExtractTo(string rootPath)
         {
             var localDirectory = Path.Combine(rootPath, EndpointName);
             var localFileName = Path.Combine(rootPath, Path.GetFileName(blob.Uri.AbsolutePath));
@@ -36,12 +36,7 @@ namespace NServiceBus.Hosting
                 blob.DownloadToStream(fs);
             }
 
-            using(var zip = new ZipFile(localFileName))
-            {
-                zip.ExtractAll(localDirectory, ExtractExistingFileAction.OverwriteSilently);
-            }
-
-            return localDirectory;
+            ZipFile.ExtractToDirectory(localFileName, localDirectory);
         }
     }
 }
