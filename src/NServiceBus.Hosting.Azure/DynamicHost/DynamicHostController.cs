@@ -8,9 +8,9 @@ namespace NServiceBus.Hosting.Azure
 
     class DynamicHostController : IHost
     {
-        public DynamicHostController(IConfigureThisEndpoint specifier, string[] requestedProfiles, List<Type> defaultProfiles)
+        public DynamicHostController(DynamicHostControllerSettings settings, string[] requestedProfiles, List<Type> defaultProfiles)
         {
-            this.specifier = specifier;
+            this.settings = settings;
 
             var assembliesToScan = new List<Assembly> { GetType().Assembly };
 
@@ -25,28 +25,25 @@ namespace NServiceBus.Hosting.Azure
             endpointConfiguration.UsePersistence<InMemoryPersistence>();
 
             profileManager.ActivateProfileHandlers(endpointConfiguration);
-            specifier.Customize(endpointConfiguration);
 
             endpointConfiguration.SendOnly();
             endpoint = Endpoint.Start(endpointConfiguration).GetAwaiter().GetResult();
 
-            var configSection = endpointConfiguration.GetSettings().GetConfigSection<DynamicHostControllerConfig>() ?? new DynamicHostControllerConfig();
-
             loader = new DynamicEndpointLoader
             {
-                ConnectionString = configSection.ConnectionString,
-                Container = configSection.Container
+                ConnectionString = settings.ConnectionString,
+                Container = settings.Container
             };
             provisioner = new DynamicEndpointProvisioner
             {
-                LocalResource = configSection.LocalResource,
-                RecycleRoleOnError = configSection.RecycleRoleOnError
+                LocalResource = settings.LocalResource,
+                RecycleRoleOnError = settings.RecycleRoleOnError
             };
 
             runner = new DynamicEndpointRunner
             {
-                RecycleRoleOnError = configSection.RecycleRoleOnError,
-                TimeToWaitUntilProcessIsKilled = configSection.TimeToWaitUntilProcessIsKilled
+                RecycleRoleOnError = settings.RecycleRoleOnError,
+                TimeToWaitUntilProcessIsKilled = settings.TimeToWaitUntilProcessIsKilled
             };
 
             var endpointsToHost = loader.LoadEndpoints();
@@ -59,12 +56,12 @@ namespace NServiceBus.Hosting.Azure
 
             runner.Start(runningServices);
 
-            if (!configSection.AutoUpdate) return;
+            if (!settings.AutoUpdate) return;
 
             monitor = new DynamicHostMonitor
             {
                 Loader = loader,
-                Interval = configSection.UpdateInterval
+                Interval = settings.UpdateInterval
             };
             monitor.UpdatedEndpoints += UpdatedEndpoints;
             monitor.NewEndpoints += NewEndpoints;
@@ -110,7 +107,7 @@ namespace NServiceBus.Hosting.Azure
                 runningServices.Remove(endpoint);
         }
 
-        IConfigureThisEndpoint specifier;
+        DynamicHostControllerSettings settings;
         ProfileManager profileManager;
         DynamicEndpointLoader loader;
         DynamicEndpointProvisioner provisioner;

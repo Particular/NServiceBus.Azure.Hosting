@@ -107,6 +107,7 @@
     <Compile Include="DynamicHost\DynamicEndpointLoader.cs" />
     <Compile Include="DynamicHost\DynamicEndpointProvisioner.cs" />
     <Compile Include="DynamicHost\DynamicEndpointRunner.cs" />
+    <Compile Include="DynamicHost\DynamicHostControllerSettings.cs" />
     <Compile Include="DynamicHost\DynamicHostMonitor.cs" />
     <Compile Include="DynamicHost\EndpointsEventArgs.cs" />
     <Compile Include="DynamicHost\EndpointToHost.cs" />
@@ -131,6 +132,7 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="RoleHost\RoleEnvironmentUnavailableException.cs" />
     <Compile Include="RoleHost\SafeRoleEnvironment.cs" />
+    <Compile Include="Roles\AsA_DynamicController.cs" />
     <Compile Include="Roles\AsA_Host.cs" />
     <Compile Include="Roles\AsA_Worker.cs" />
     <Compile Include="Roles\RoleManager.cs" />

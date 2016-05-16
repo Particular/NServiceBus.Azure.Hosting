@@ -8,19 +8,24 @@ namespace NServiceBus.Hosting.Azure
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
-    using Config;
-    using Config.ConfigurationSource;
-    using Helpers;
-    using Profiles;
-    using Integration.Azure;
-    using Logging;
     using NServiceBus.Azure;
+    using NServiceBus.Config;
+    using NServiceBus.Hosting.Helpers;
+    using NServiceBus.Hosting.Profiles;
+    using NServiceBus.Logging;
 
     /// <summary>
     ///     A generic host that can be used to provide hosting services in different environments
     /// </summary>
     public class GenericHost : IHost
     {
+        IEndpointInstance bus;
+
+        string endpointNameToUse;
+
+        ProfileManager profileManager;
+        IConfigureThisEndpoint specifier;
+
         /// <summary>
         ///     Accepts the type which will specify the users custom configuration.
         ///     This type should implement <see cref="IConfigureThisEndpoint" />.
@@ -51,8 +56,6 @@ namespace NServiceBus.Hosting.Azure
                     .Select(Assembly.Load)
                     .ToList();
             }
-
-            args = AddProfilesFromConfiguration(args);
 
             profileManager = new ProfileManager(assembliesToScan, args, defaultProfiles);
         }
@@ -123,10 +126,7 @@ namespace NServiceBus.Hosting.Azure
                     .UsingNames(instance, host);
             }
 
-            if (moreConfiguration != null)
-            {
-                moreConfiguration(configuration);
-            }
+            moreConfiguration?.Invoke(configuration);
 
             specifier.Customize(configuration);
             RoleManager.TweakConfigurationBuilder(specifier, configuration);
@@ -148,21 +148,6 @@ namespace NServiceBus.Hosting.Azure
             return Task.FromResult(0);
         }
 
-        string[] AddProfilesFromConfiguration(IEnumerable<string> args)
-        {
-            var list = new List<string>(args);
-
-            var configSection = ((IConfigurationSource)new AzureConfigurationSource(new AzureConfigurationSettings())).GetConfiguration<AzureProfileConfig>();
-
-            if (configSection != null)
-            {
-                var configuredProfiles = configSection.Profiles.Split(',');
-                Array.ForEach(configuredProfiles, s => list.Add(s.Trim()));
-            }
-
-            return list.ToArray();
-        }
-
         static Guid DeterministicGuid(params object[] data)
         {
             // use MD5 hash to get a 16-byte hash of the string
@@ -174,11 +159,5 @@ namespace NServiceBus.Hosting.Azure
                 return new Guid(hashBytes);
             }
         }
-        
-        ProfileManager profileManager;
-        IConfigureThisEndpoint specifier;
-        IEndpointInstance bus;
-
-        string endpointNameToUse;
     }
 }

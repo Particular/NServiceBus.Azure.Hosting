@@ -31,9 +31,10 @@ namespace NServiceBus.Hosting.Azure
 
             var specifier = (IConfigureThisEndpoint)Activator.CreateInstance(endpointConfigurationType);
 
-            if (specifier is AsA_Host)
+            if (specifier is AsA_DynamicController)
             {
-                host = new DynamicHostController(specifier, requestedProfiles, new List<Type> { typeof(Development) });
+                var controllerSettings = ((AsA_DynamicController) specifier).ConfigureDynamicController();
+                host = new DynamicHostController(controllerSettings, requestedProfiles, new List<Type> { typeof(Development) });
             }
             else
             {
