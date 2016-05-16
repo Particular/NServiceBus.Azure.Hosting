@@ -3,7 +3,7 @@ namespace NServiceBus.Hosting.Azure
     /// <summary>
     /// Identifies a host
     /// </summary>
-    public interface IHost
+    internal interface IHost
     {
         /// <summary>
         /// Does startup work.

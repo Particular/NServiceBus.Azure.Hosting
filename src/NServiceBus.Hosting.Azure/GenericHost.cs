@@ -19,7 +19,7 @@ namespace NServiceBus.Hosting.Azure
     /// <summary>
     ///     A generic host that can be used to provide hosting services in different environments
     /// </summary>
-    public class GenericHost : IHost
+    internal class GenericHost : IHost
     {
         /// <summary>
         ///     Accepts the type which will specify the users custom configuration.
