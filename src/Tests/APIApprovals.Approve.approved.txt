@@ -39,14 +39,6 @@ namespace NServiceBus
     public interface UsingTransport<T>
         where T : NServiceBus.Transports.TransportDefinition { }
 }
-namespace NServiceBus.Azure
-{
-    public class static IsHostedIn
-    {
-        public static string HostProcessName;
-        public static bool ChildHostProcess() { }
-    }
-}
 namespace NServiceBus.Config
 {
     public class AzureProfileConfig : System.Configuration.ConfigurationSection
@@ -62,18 +54,6 @@ namespace NServiceBus.Config
         public RoleEnvironmentUnavailableException(string message, System.Exception inner) { }
         protected RoleEnvironmentUnavailableException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) { }
     }
-    public class static SafeRoleEnvironment
-    {
-        public static string CurrentRoleInstanceId { get; }
-        public static string CurrentRoleName { get; }
-        public static string DeploymentId { get; }
-        public static bool IsAvailable { get; }
-        public static string GetConfigurationSettingValue(string name) { }
-        public static string GetRootPath(string name) { }
-        public static void RequestRecycle() { }
-        public static bool TryGetConfigurationSettingValue(string name, out string setting) { }
-        public static bool TryGetRootPath(string name, out string path) { }
-    }
 }
 namespace NServiceBus.Hosting.Azure
 {
@@ -83,12 +63,6 @@ namespace NServiceBus.Hosting.Azure
         public void Install(string username) { }
         public void Start() { }
         public void Stop() { }
-    }
-    public interface IHost
-    {
-        void Install(string username);
-        void Start();
-        void Stop();
     }
     public class NServiceBusRoleEntrypoint
     {
