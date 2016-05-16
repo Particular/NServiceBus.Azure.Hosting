@@ -96,7 +96,7 @@ namespace NServiceBus.Hosting.Azure
             PerformConfiguration(builder => builder.EnableInstallers(username)).GetAwaiter().GetResult();
         }
 
-        async Task<IStartableEndpoint> PerformConfiguration(Action<EndpointConfiguration> moreConfiguration = null)
+        Task<IStartableEndpoint> PerformConfiguration(Action<EndpointConfiguration> moreConfiguration = null)
         {
             var loggingConfigurers = profileManager.GetLoggingConfigurer();
             foreach (var loggingConfigurer in loggingConfigurers)
@@ -123,14 +123,11 @@ namespace NServiceBus.Hosting.Azure
                     .UsingNames(instance, host);
             }
 
-            if (moreConfiguration != null)
-            {
-                moreConfiguration(configuration);
-            }
+            moreConfiguration?.Invoke(configuration);
 
             specifier.Customize(configuration);
             RoleManager.TweakConfigurationBuilder(specifier, configuration);
-            return await Endpoint.Create(configuration).ConfigureAwait(false);
+            return Endpoint.Create(configuration);
         }
 
         // Windows hosting behavior when critical error occurs is suicide.
