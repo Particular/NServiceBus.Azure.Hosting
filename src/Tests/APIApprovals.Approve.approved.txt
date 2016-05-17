@@ -97,13 +97,6 @@ namespace NServiceBus.Hosting.Azure
         public void Stop() { }
     }
 }
-namespace NServiceBus.Hosting.Azure.LoggingHandlers
-{
-    public class DevelopmentLoggingHandler : NServiceBus.Hosting.Profiles.IConfigureLogging, NServiceBus.Hosting.Profiles.IConfigureLoggingForProfile<NServiceBus.Development>
-    {
-        public DevelopmentLoggingHandler() { }
-    }
-}
 namespace NServiceBus.Hosting
 {
     public class DynamicHostControllerConfig : System.Configuration.ConfigurationSection
