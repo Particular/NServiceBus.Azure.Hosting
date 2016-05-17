@@ -56,13 +56,6 @@ namespace NServiceBus.Config
         protected RoleEnvironmentUnavailableException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) { }
     }
 }
-namespace NServiceBus.Hosting.Azure.LoggingHandlers
-{
-    public class DevelopmentLoggingHandler : NServiceBus.Hosting.Profiles.IConfigureLogging, NServiceBus.Hosting.Profiles.IConfigureLoggingForProfile<NServiceBus.Development>
-    {
-        public DevelopmentLoggingHandler() { }
-    }
-}
 namespace NServiceBus.Hosting.Azure
 {
     public class NServiceBusRoleEntrypoint
