@@ -12,9 +12,11 @@ results
 CommonAssemblyInfo.cs
 lib/sqlite/System.Data.SQLite.dll
 *.orig
+*.zip
 Samples/DataBus/storage
 packages
 PrecompiledWeb
+tempstorage
 core-only
 Release
 Artifacts
@@ -42,6 +44,10 @@ installer/ServiceControl-cache
 *.user
 *.userosscache
 *.sln.docstates
+.vs/
+
+# mac temp file ignore
+.DS_Store
 
 # Build results
 [Dd]ebug/
@@ -80,8 +86,6 @@ src/scaffolding.config
 # Approval tests temp file
 *.received.*
 
-# do not exclude these libraries (hard dependency on old libraries)
-!src/lib
-
-# ILMerge is required by project
-!tools/IlMerge
+# JetBrains Rider
+.idea/
+*.sln.iml
