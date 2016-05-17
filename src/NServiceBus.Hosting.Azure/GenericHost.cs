@@ -16,19 +16,8 @@ namespace NServiceBus.Hosting.Azure
     using Logging;
     using NServiceBus.Azure;
 
-    /// <summary>
-    ///     A generic host that can be used to provide hosting services in different environments
-    /// </summary>
-    public class GenericHost : IHost
+    class GenericHost : IHost
     {
-        /// <summary>
-        ///     Accepts the type which will specify the users custom configuration.
-        ///     This type should implement <see cref="IConfigureThisEndpoint" />.
-        /// </summary>
-        /// <param name="scannableAssembliesFullName">Assemblies full name that were scanned.</param>
-        /// <param name="specifier"></param>
-        /// <param name="args"></param>
-        /// <param name="defaultProfiles"></param>
         public GenericHost(IConfigureThisEndpoint specifier, string[] args, List<Type> defaultProfiles,
             IEnumerable<string> scannableAssembliesFullName = null)
         {
@@ -57,9 +46,6 @@ namespace NServiceBus.Hosting.Azure
             profileManager = new ProfileManager(assembliesToScan, args, defaultProfiles);
         }
 
-        /// <summary>
-        ///     Creates and starts the bus as per the configuration
-        /// </summary>
         public void Start()
         {
             try
@@ -75,9 +61,6 @@ namespace NServiceBus.Hosting.Azure
             }
         }
 
-        /// <summary>
-        ///     Finalize
-        /// </summary>
         public void Stop()
         {
             if (bus != null)
@@ -88,15 +71,12 @@ namespace NServiceBus.Hosting.Azure
             }
         }
 
-        /// <summary>
-        ///     When installing as windows service (/install), run infrastructure installers
-        /// </summary>
         public void Install(string username)
         {
             PerformConfiguration(builder => builder.EnableInstallers(username)).GetAwaiter().GetResult();
         }
 
-        async Task<IStartableEndpoint> PerformConfiguration(Action<EndpointConfiguration> moreConfiguration = null)
+        Task<IStartableEndpoint> PerformConfiguration(Action<EndpointConfiguration> moreConfiguration = null)
         {
             var loggingConfigurers = profileManager.GetLoggingConfigurer();
             foreach (var loggingConfigurer in loggingConfigurers)
@@ -123,14 +103,11 @@ namespace NServiceBus.Hosting.Azure
                     .UsingNames(instance, host);
             }
 
-            if (moreConfiguration != null)
-            {
-                moreConfiguration(configuration);
-            }
+            moreConfiguration?.Invoke(configuration);
 
             specifier.Customize(configuration);
             RoleManager.TweakConfigurationBuilder(specifier, configuration);
-            return await Endpoint.Create(configuration).ConfigureAwait(false);
+            return Endpoint.Create(configuration);
         }
 
         // Windows hosting behavior when critical error occurs is suicide.
