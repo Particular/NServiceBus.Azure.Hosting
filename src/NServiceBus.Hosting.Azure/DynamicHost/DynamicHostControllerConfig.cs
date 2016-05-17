@@ -85,7 +85,7 @@ namespace NServiceBus.Hosting
 
         private static string BuildConfigExceptionMessage(string attributeName)
         {
-            return $"The {attributeName} attribute in the {nameof(DynamicHostControllerConfig)} configuration section is no longer supported. Use {nameof(DynamicHostControllerSettings)}.{attributeName}.";
+            return $"The {attributeName} attribute in the {nameof(DynamicHostControllerConfig)} configuration section is no longer supported. Use {nameof(HostingSettings)}.{attributeName}.";
         }
     }
 }

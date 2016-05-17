@@ -1,6 +1,6 @@
 namespace NServiceBus.Hosting
 {
-    public class DynamicHostControllerSettings
+    public class HostingSettings
     {
         public const string DefaultConnectionString = "UseDevelopmentStorage=true";
         public const string DefaultContainer = "endpoints";
@@ -8,7 +8,7 @@ namespace NServiceBus.Hosting
         public const int DefaultUpdateInterval = 600000;
         public const int DefaultTimeToWaitUntilProcessIsKilled = 10000;
 
-        public DynamicHostControllerSettings()
+        public HostingSettings()
         {
             ConnectionString = DefaultConnectionString;
             LocalResource = DefaultLocalResource;

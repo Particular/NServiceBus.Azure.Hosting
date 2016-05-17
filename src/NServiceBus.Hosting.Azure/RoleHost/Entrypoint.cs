@@ -1,22 +1,22 @@
 namespace NServiceBus.Hosting.Azure
 {
-    using System.Reflection;
-    using Config;
-    using Helpers;
-    using Integration.Azure;
     using System;
-    using System.Linq;
     using System.Collections.Generic;
     using System.Configuration;
     using System.Diagnostics;
+    using System.Linq;
+    using System.Reflection;
+    using NServiceBus.Config;
+    using NServiceBus.Hosting.Helpers;
+    using NServiceBus.Integration.Azure;
 
     public class NServiceBusRoleEntrypoint
     {
         const string ProfileSetting = "AzureProfileConfig.Profiles";
         const string EndpointConfigurationType = "EndpointConfigurationType";
-        IHost host;
 
         static List<Assembly> scannedAssemblies;
+        IHost host;
 
         public NServiceBusRoleEntrypoint()
         {
@@ -29,20 +29,26 @@ namespace NServiceBus.Hosting.Azure
 
             AssertThatEndpointConfigurationTypeHasDefaultConstructor(endpointConfigurationType);
 
-            var specifier = (IConfigureThisEndpoint)Activator.CreateInstance(endpointConfigurationType);
+            var specifier = Activator.CreateInstance(endpointConfigurationType);
 
-            if (specifier is AsA_DynamicController)
+            var controller = specifier as IConfigureThisHost;
+            if (controller != null)
             {
-                var controllerSettings = ((AsA_DynamicController) specifier).ConfigureDynamicController();
-                host = new DynamicHostController(controllerSettings, requestedProfiles, new List<Type> { typeof(Development) });
+                var controllerSettings = controller.Configure();
+                host = new DynamicHostController(controllerSettings, requestedProfiles, new List<Type>
+                {
+                    typeof(Development)
+                });
             }
             else
             {
                 scannedAssemblies = scannedAssemblies ?? new List<Assembly>();
-                host = new GenericHost(specifier, requestedProfiles,
-                    new List<Type> { typeof(Development) }, scannedAssemblies.Select(s => s.ToString()));
+                host = new GenericHost((IConfigureThisEndpoint) specifier, requestedProfiles,
+                    new List<Type>
+                    {
+                        typeof(Development)
+                    }, scannedAssemblies.Select(s => s.ToString()));
             }
-
         }
 
         static void CurrentDomainUnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -140,7 +146,6 @@ namespace NServiceBus.Hosting.Azure
                                                     " You may have some old assemblies in your runtime directory." +
                                                     " Try right-clicking your VS project, and selecting 'Clean'."
                     );
-
             }
         }
 
