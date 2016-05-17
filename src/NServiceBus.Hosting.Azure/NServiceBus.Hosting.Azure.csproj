@@ -116,7 +116,6 @@
     <Compile Include="IConfigureThisEndpoint.cs" />
     <Compile Include="IHost.cs" />
     <Compile Include="IsHostedIn.cs" />
-    <Compile Include="Logging\DevelopmentLoggingHandler.cs" />
     <Compile Include="Profiles\Hosting\IConfigureLoggingForProfile.cs" />
     <Compile Include="Profiles\Hosting\IHandleAnyProfile.cs" />
     <Compile Include="Profiles\Hosting\IHandleProfile.cs" />
@@ -144,6 +143,7 @@
   <ItemGroup>
     <Content Include="FodyWeavers.xml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
