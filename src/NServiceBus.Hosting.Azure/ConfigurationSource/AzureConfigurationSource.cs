@@ -9,7 +9,7 @@ namespace NServiceBus.Integration.Azure
     using System.Web.Hosting;
     using Config.ConfigurationSource;
 
-    public class AzureConfigurationSource : IConfigurationSource
+    class AzureConfigurationSource : IConfigurationSource
     {
         static IDictionary<string, object> ConfigurationCache = new ConcurrentDictionary<string, object>();
 

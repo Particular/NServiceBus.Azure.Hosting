@@ -109,22 +109,3 @@ namespace NServiceBus.Hosting.Profiles
     public interface IHandleProfile<T> : NServiceBus.Hosting.Profiles.IHandleProfile
         where T : NServiceBus.IProfile { }
 }
-namespace NServiceBus.Integration.Azure
-{
-    public class AzureConfigurationSettings : NServiceBus.Integration.Azure.IAzureConfigurationSettings
-    {
-        public AzureConfigurationSettings() { }
-        public string GetSetting(string name) { }
-        public bool TryGetSetting(string name, out string setting) { }
-    }
-    public class AzureConfigurationSource : NServiceBus.Config.ConfigurationSource.IConfigurationSource
-    {
-        public AzureConfigurationSource(NServiceBus.Integration.Azure.IAzureConfigurationSettings configurationSettings, bool usecache = True) { }
-        public string ConfigurationPrefix { get; set; }
-    }
-    public interface IAzureConfigurationSettings
-    {
-        string GetSetting(string name);
-        bool TryGetSetting(string name, out string setting);
-    }
-}

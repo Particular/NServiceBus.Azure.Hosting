@@ -4,19 +4,18 @@
     using Config.ConfigurationSource;
     using Integration.Azure;
     using NUnit.Framework;
-    using Rhino.Mocks;
 
     [TestFixture]
     [Category("Azure")]
     public class When_using_the_azure_configuration_source
     {
-        IAzureConfigurationSettings azureSettings;
+        FakeAzureConfigurationSettings azureSettings;
         IConfigurationSource configSource;
 
         [SetUp]
         public void SetUp()
         {
-            azureSettings = MockRepository.GenerateStub<IAzureConfigurationSettings>();
+            azureSettings = new FakeAzureConfigurationSettings();
         }
 
         [Test]
@@ -24,10 +23,7 @@
         {
             configSource = new AzureConfigurationSource(azureSettings, false);
 
-            azureSettings.Stub(x => x.TryGetSetting(
-                Arg.Is("TestConfigSection.StringSetting"),
-                out Arg<string>.Out("test").Dummy))
-                .Return(true);
+            azureSettings.AddSetting("TestConfigSection.StringSetting", "test");
 
             Assert.AreEqual(configSource.GetConfiguration<TestConfigSection>().StringSetting, "test");
         }
@@ -37,10 +33,7 @@
         {
             configSource = new AzureConfigurationSource(azureSettings, false);
 
-            azureSettings.Stub(x => x.TryGetSetting(
-               Arg.Is("SectionNotPresentInConfig.SomeSetting"),
-               out Arg<string>.Out("test").Dummy))
-               .Return(true);
+            azureSettings.AddSetting("SectionNotPresentInConfig.SomeSetting", "test");
 
             Assert.AreEqual(configSource.GetConfiguration<SectionNotPresentInConfig>().SomeSetting, "test");
         }
@@ -58,10 +51,7 @@
         {
             configSource = new AzureConfigurationSource(azureSettings, false);
 
-           azureSettings.Stub(x => x.TryGetSetting(
-              Arg.Is("TestConfigSection.IntSetting"),
-              out Arg<string>.Out("23").Dummy))
-              .Return(true);
+            azureSettings.AddSetting("TestConfigSection.IntSetting", "23");
 
             Assert.AreEqual(configSource.GetConfiguration<TestConfigSection>().IntSetting, 23);
         }
@@ -71,10 +61,7 @@
         {
             configSource = new AzureConfigurationSource(azureSettings);
 
-            azureSettings.Stub(x => x.TryGetSetting(
-               Arg.Is("TestConfigSection.StringSetting"),
-               out Arg<string>.Out("test").Dummy))
-               .Return(true);
+            azureSettings.AddSetting("TestConfigSection.StringSetting", "test");
 
             Assert.AreEqual(configSource.GetConfiguration<TestConfigSection>(), configSource.GetConfiguration<TestConfigSection>());
         }
