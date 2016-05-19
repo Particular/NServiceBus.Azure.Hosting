@@ -59,9 +59,9 @@ namespace NServiceBus.Hosting
         }
     }
 
-    internal sealed class DetectObsoleteConfigurationSettings : Feature
+    public sealed class DetectObsoleteDynamicHostControllerConfig : Feature
     {
-        public DetectObsoleteConfigurationSettings()
+        public DetectObsoleteDynamicHostControllerConfig()
         {
             EnableByDefault();
         }
@@ -69,6 +69,11 @@ namespace NServiceBus.Hosting
         protected override void Setup(FeatureConfigurationContext context)
         {
             var cfg = context.Settings.GetConfigSection<DynamicHostControllerConfig>();
+            Validate(cfg);
+        }
+
+        public static void Validate(DynamicHostControllerConfig cfg)
+        {
             if (cfg == null)
             {
                 return;
