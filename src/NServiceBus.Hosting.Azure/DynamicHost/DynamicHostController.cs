@@ -3,20 +3,10 @@ namespace NServiceBus.Hosting.Azure
     using System;
     using System.Collections.Generic;
     using System.Reflection;
-    using NServiceBus.Hosting.Profiles;
+    using Profiles;
 
     class DynamicHostController : IHost
     {
-        IEndpointInstance endpoint;
-        DynamicEndpointLoader loader;
-        DynamicHostMonitor monitor;
-        ProfileManager profileManager;
-        DynamicEndpointProvisioner provisioner;
-        DynamicEndpointRunner runner;
-        List<EndpointToHost> runningServices;
-
-        HostingSettings settings;
-
         public DynamicHostController(HostingSettings settings, string[] requestedProfiles, List<Type> defaultProfiles)
         {
             this.settings = settings;
@@ -118,5 +108,15 @@ namespace NServiceBus.Hosting.Azure
             foreach (var endpoint in e.Endpoints)
                 runningServices.Remove(endpoint);
         }
+
+        IEndpointInstance endpoint;
+        DynamicEndpointLoader loader;
+        DynamicHostMonitor monitor;
+        ProfileManager profileManager;
+        DynamicEndpointProvisioner provisioner;
+        DynamicEndpointRunner runner;
+        List<EndpointToHost> runningServices;
+
+        HostingSettings settings;
     }
 }

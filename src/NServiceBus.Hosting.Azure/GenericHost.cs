@@ -8,21 +8,14 @@ namespace NServiceBus.Hosting.Azure
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
+    using Config;
+    using Helpers;
+    using Logging;
     using NServiceBus.Azure;
-    using NServiceBus.Config;
-    using NServiceBus.Hosting.Helpers;
-    using NServiceBus.Hosting.Profiles;
-    using NServiceBus.Logging;
+    using Profiles;
 
     class GenericHost : IHost
     {
-        IEndpointInstance bus;
-
-        string endpointNameToUse;
-
-        ProfileManager profileManager;
-        IConfigureThisEndpoint specifier;
-
         public GenericHost(IConfigureThisEndpoint specifier, string[] args, List<Type> defaultProfiles,
             IEnumerable<string> scannableAssembliesFullName = null)
         {
@@ -139,5 +132,12 @@ namespace NServiceBus.Hosting.Azure
                 return new Guid(hashBytes);
             }
         }
+
+        IEndpointInstance bus;
+
+        string endpointNameToUse;
+
+        ProfileManager profileManager;
+        IConfigureThisEndpoint specifier;
     }
 }

@@ -6,18 +6,12 @@ namespace NServiceBus.Hosting.Azure
     using System.Diagnostics;
     using System.Linq;
     using System.Reflection;
-    using NServiceBus.Config;
-    using NServiceBus.Hosting.Helpers;
-    using NServiceBus.Integration.Azure;
+    using Config;
+    using Helpers;
+    using Integration.Azure;
 
     public class NServiceBusRoleEntrypoint
     {
-        const string ProfileSetting = "AzureProfileConfig.Profiles";
-        const string EndpointConfigurationType = "EndpointConfigurationType";
-
-        static List<Assembly> scannedAssemblies;
-        IHost host;
-
         public NServiceBusRoleEntrypoint()
         {
             AppDomain.CurrentDomain.UnhandledException += CurrentDomainUnhandledException;
@@ -163,5 +157,11 @@ namespace NServiceBus.Hosting.Azure
 
             return list.ToArray();
         }
+
+        IHost host;
+        const string ProfileSetting = "AzureProfileConfig.Profiles";
+        const string EndpointConfigurationType = "EndpointConfigurationType";
+
+        static List<Assembly> scannedAssemblies;
     }
 }

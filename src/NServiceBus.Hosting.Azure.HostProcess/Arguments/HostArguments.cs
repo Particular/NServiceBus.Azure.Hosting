@@ -1,4 +1,5 @@
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace NServiceBus.Hosting.Azure.HostProcess
 {
