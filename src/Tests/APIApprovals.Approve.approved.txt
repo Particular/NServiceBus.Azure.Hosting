@@ -48,13 +48,6 @@ namespace NServiceBus.Config
         [System.Configuration.ConfigurationPropertyAttribute("Profiles", IsRequired=false)]
         public string Profiles { get; set; }
     }
-    public class RoleEnvironmentUnavailableException : System.Exception
-    {
-        public RoleEnvironmentUnavailableException() { }
-        public RoleEnvironmentUnavailableException(string message) { }
-        public RoleEnvironmentUnavailableException(string message, System.Exception inner) { }
-        protected RoleEnvironmentUnavailableException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) { }
-    }
 }
 namespace NServiceBus.Hosting.Azure
 {
@@ -84,13 +77,6 @@ namespace NServiceBus.Hosting
         public int TimeToWaitUntilProcessIsKilled { get; set; }
         [System.Configuration.ConfigurationPropertyAttribute("UpdateInterval", DefaultValue=600000, IsRequired=false)]
         public int UpdateInterval { get; set; }
-    }
-    public class UnableToKillProcessException : System.Exception
-    {
-        public UnableToKillProcessException() { }
-        public UnableToKillProcessException(string message) { }
-        public UnableToKillProcessException(string message, System.Exception inner) { }
-        protected UnableToKillProcessException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) { }
     }
 }
 namespace NServiceBus.Hosting.Profiles
