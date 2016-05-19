@@ -2,7 +2,7 @@ namespace NServiceBus.Hosting
 {
     using System;
     using System.Configuration;
-    using NServiceBus.Features;
+    using Features;
 
     [ObsoleteEx(Message = "The profiles configured via AzureProfileConfig are no longer supported",
         TreatAsErrorFromVersion = "7",
@@ -59,7 +59,7 @@ namespace NServiceBus.Hosting
         }
     }
 
-    public sealed class DetectObsoleteDynamicHostControllerConfig : Feature
+    sealed class DetectObsoleteDynamicHostControllerConfig : Feature
     {
         public DetectObsoleteDynamicHostControllerConfig()
         {
@@ -88,7 +88,7 @@ namespace NServiceBus.Hosting
             }
         }
 
-        private static string BuildConfigExceptionMessage(string attributeName)
+        static string BuildConfigExceptionMessage(string attributeName)
         {
             return $"The {attributeName} attribute in the {nameof(DynamicHostControllerConfig)} configuration section is no longer supported. Use {nameof(HostingSettings)}.{attributeName}.";
         }

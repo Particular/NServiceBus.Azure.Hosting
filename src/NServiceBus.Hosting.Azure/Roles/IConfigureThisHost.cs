@@ -1,6 +1,6 @@
 namespace NServiceBus
 {
-    using NServiceBus.Hosting;
+    using Hosting;
 
     public interface IConfigureThisHost
     {

@@ -95,9 +95,6 @@
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="Rhino.Mocks">
-      <HintPath>..\packages\RhinoMocks.3.6.1\lib\net\Rhino.Mocks.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -120,6 +117,7 @@
     <Compile Include="App_Packages\ApiApprover.3.0.1\PublicApiApprover.cs" />
     <Compile Include="App_Packages\ApiApprover.3.0.1\PublicApiGenerator.cs" />
     <Compile Include="Configuration\When_using_obsoleted_config_sections.cs" />
+    <Compile Include="Configuration\FakeAzureConfigurationSettings.cs" />
     <Compile Include="Configuration\When_using_the_azure_configuration_source.cs" />
     <Compile Include="Hosting\When_checking_if_roleenvironment_is_available.cs" />
     <Compile Include="Hosting\When_killing_processes.cs" />

@@ -1,3 +1,5 @@
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+
 namespace NServiceBus.Hosting.Azure.HostProcess
 {
     using System.Linq;
@@ -35,7 +37,10 @@ namespace NServiceBus.Hosting.Azure.HostProcess
 
             if (argument != null)
             {
-                arguments.CustomArguments = arguments.CustomArguments.Except(new[] {argument});
+                arguments.CustomArguments = arguments.CustomArguments.Except(new[]
+                {
+                    argument
+                });
             }
 
             return argument;

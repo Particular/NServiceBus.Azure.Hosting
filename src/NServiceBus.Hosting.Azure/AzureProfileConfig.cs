@@ -2,16 +2,16 @@
 {
     using System;
     using System.Configuration;
-    using NServiceBus.Features;
+    using Features;
 
     /// <summary>
-    ///     Configuration section for Azure host.
+    /// Configuration section for Azure host.
     /// </summary>
     [ObsoleteEx(Message = "The profiles configured via AzureProfileConfig are no longer supported", TreatAsErrorFromVersion = "7", RemoveInVersion = "8")]
     public class AzureProfileConfig : ConfigurationSection
     {
         /// <summary>
-        ///     A comma separated list of profile names
+        /// A comma separated list of profile names
         /// </summary>
         [ConfigurationProperty("Profiles", IsRequired = false)]
         public string Profiles
@@ -21,7 +21,7 @@
         }
     }
 
-    internal sealed class DetectObsoleteConfigurationSettings : Feature
+    sealed class DetectObsoleteConfigurationSettings : Feature
     {
         public DetectObsoleteConfigurationSettings()
         {

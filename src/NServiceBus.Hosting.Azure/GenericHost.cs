@@ -14,10 +14,7 @@ namespace NServiceBus.Hosting.Azure
     using NServiceBus.Hosting.Profiles;
     using NServiceBus.Logging;
 
-    /// <summary>
-    ///     A generic host that can be used to provide hosting services in different environments
-    /// </summary>
-    public class GenericHost : IHost
+    class GenericHost : IHost
     {
         IEndpointInstance bus;
 
@@ -26,14 +23,6 @@ namespace NServiceBus.Hosting.Azure
         ProfileManager profileManager;
         IConfigureThisEndpoint specifier;
 
-        /// <summary>
-        ///     Accepts the type which will specify the users custom configuration.
-        ///     This type should implement <see cref="IConfigureThisEndpoint" />.
-        /// </summary>
-        /// <param name="scannableAssembliesFullName">Assemblies full name that were scanned.</param>
-        /// <param name="specifier"></param>
-        /// <param name="args"></param>
-        /// <param name="defaultProfiles"></param>
         public GenericHost(IConfigureThisEndpoint specifier, string[] args, List<Type> defaultProfiles,
             IEnumerable<string> scannableAssembliesFullName = null)
         {
@@ -60,9 +49,6 @@ namespace NServiceBus.Hosting.Azure
             profileManager = new ProfileManager(assembliesToScan, args, defaultProfiles);
         }
 
-        /// <summary>
-        ///     Creates and starts the bus as per the configuration
-        /// </summary>
         public void Start()
         {
             try
@@ -78,9 +64,6 @@ namespace NServiceBus.Hosting.Azure
             }
         }
 
-        /// <summary>
-        ///     Finalize
-        /// </summary>
         public void Stop()
         {
             if (bus != null)
@@ -91,9 +74,6 @@ namespace NServiceBus.Hosting.Azure
             }
         }
 
-        /// <summary>
-        ///     When installing as windows service (/install), run infrastructure installers
-        /// </summary>
         public void Install(string username)
         {
             PerformConfiguration(builder => builder.EnableInstallers(username)).GetAwaiter().GetResult();

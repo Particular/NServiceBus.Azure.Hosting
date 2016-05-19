@@ -2,14 +2,12 @@
 {
     using System;
     using System.Reflection;
-    using NServiceBus.Hosting;
+    using Hosting;
     using NUnit.Framework;
 
     public class When_using_obsoleted_config_sections
     {
-        private static readonly Type ConfigSectionType = typeof(DetectObsoleteDynamicHostControllerConfig).Assembly.GetType("NServiceBus.Hosting.DynamicHostControllerConfig");
-
-        private static object BuildConfig()
+        static object BuildConfig()
         {
             return Activator.CreateInstance(ConfigSectionType);
         }
@@ -33,7 +31,7 @@
             Assert.True(ex.Message.Contains("AutoUpdate"));
         }
 
-        private static void Validate(object config)
+        static void Validate(object config)
         {
             try
             {
@@ -47,5 +45,7 @@
                 throw ex.InnerException;
             }
         }
+
+        static readonly Type ConfigSectionType = typeof(DetectObsoleteDynamicHostControllerConfig).Assembly.GetType("NServiceBus.Hosting.DynamicHostControllerConfig");
     }
 }

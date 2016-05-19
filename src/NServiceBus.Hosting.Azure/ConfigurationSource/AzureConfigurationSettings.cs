@@ -2,7 +2,7 @@ namespace NServiceBus.Integration.Azure
 {
     using Config;
     
-    public class AzureConfigurationSettings : IAzureConfigurationSettings
+    class AzureConfigurationSettings : IAzureConfigurationSettings
     {
         public string GetSetting(string name)
         {

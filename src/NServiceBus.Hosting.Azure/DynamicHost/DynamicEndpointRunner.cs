@@ -4,39 +4,41 @@ namespace NServiceBus.Hosting.Azure
     using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using Logging;
     using System.Linq;
     using Config;
+    using Logging;
 
     class DynamicEndpointRunner
     {
-        ILog logger = LogManager.GetLogger(typeof(DynamicEndpointRunner));
-
         public bool RecycleRoleOnError { get; set; }
 
         public int TimeToWaitUntilProcessIsKilled { get; set; }
-        private static ConcurrentDictionary<int, bool> StoppedProcessIds = new ConcurrentDictionary<int, bool>();
+
         public void Start(IEnumerable<EndpointToHost> toHost)
         {
-            foreach(var service in toHost)
+            foreach (var service in toHost)
             {
                 try
                 {
                     var processStartInfo = new ProcessStartInfo(service.EntryPoint,
-                                                               "/serviceName:\"" + service.EndpointName +
-                                                                "\" /displayName:\"" + service.EndpointName +
-                                                                "\" /description:\"" + service.EndpointName + "\"")
-                                               {
-                                                   UseShellExecute = false,
-                                                   CreateNoWindow = true,
-                                                   RedirectStandardInput = true,
-                                                   RedirectStandardOutput = true,
-                                                   RedirectStandardError = true
-                                               };
-                    
-                    var process = new Process {StartInfo = processStartInfo, EnableRaisingEvents = true};
+                        "/serviceName:\"" + service.EndpointName +
+                        "\" /displayName:\"" + service.EndpointName +
+                        "\" /description:\"" + service.EndpointName + "\"")
+                    {
+                        UseShellExecute = false,
+                        CreateNoWindow = true,
+                        RedirectStandardInput = true,
+                        RedirectStandardOutput = true,
+                        RedirectStandardError = true
+                    };
+
+                    var process = new Process
+                    {
+                        StartInfo = processStartInfo,
+                        EnableRaisingEvents = true
+                    };
                     var processWasKilledOnPurpose = false;
-                    
+
                     process.ErrorDataReceived += (o, args) =>
                     {
                         logger.Error(args.Data);
@@ -56,7 +58,6 @@ namespace NServiceBus.Hosting.Azure
                         {
                             if (RecycleRoleOnError) SafeRoleEnvironment.RequestRecycle();
                         }
-
                     };
 
                     process.Start();
@@ -104,5 +105,8 @@ namespace NServiceBus.Hosting.Azure
                 throw new UnableToKillProcessException($"Unable to kill process {process.ProcessName}");
             }
         }
+
+        ILog logger = LogManager.GetLogger(typeof(DynamicEndpointRunner));
+        static ConcurrentDictionary<int, bool> StoppedProcessIds = new ConcurrentDictionary<int, bool>();
     }
 }

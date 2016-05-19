@@ -1,13 +1,8 @@
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 namespace NServiceBus.Hosting
 {
     public class HostingSettings
     {
-        public const string DefaultConnectionString = "UseDevelopmentStorage=true";
-        public const string DefaultContainer = "endpoints";
-        public const string DefaultLocalResource = "endpoints";
-        public const int DefaultUpdateInterval = 600000;
-        public const int DefaultTimeToWaitUntilProcessIsKilled = 10000;
-
         public HostingSettings()
         {
             ConnectionString = DefaultConnectionString;
@@ -18,7 +13,7 @@ namespace NServiceBus.Hosting
         }
 
         public string ConnectionString { get; set; }
-
+        
         public string Container { get; set; }
 
         public string LocalResource { get; set; }
@@ -30,5 +25,11 @@ namespace NServiceBus.Hosting
         public int UpdateInterval { get; set; }
 
         public int TimeToWaitUntilProcessIsKilled { get; set; }
+
+        const string DefaultConnectionString = "UseDevelopmentStorage=true";
+        const string DefaultContainer = "endpoints";
+        const string DefaultLocalResource = "endpoints";
+        const int DefaultUpdateInterval = 600000;
+        const int DefaultTimeToWaitUntilProcessIsKilled = 10000;
     }
 }
