@@ -6,7 +6,6 @@ namespace NServiceBus.Hosting.Azure
     using System.Diagnostics;
     using System.Linq;
     using System.Reflection;
-    using Config;
     using Helpers;
     using Integration.Azure;
 
@@ -18,7 +17,6 @@ namespace NServiceBus.Hosting.Azure
 
             var azureSettings = new AzureConfigurationSettings();
 
-            var requestedProfiles = GetRequestedProfiles(azureSettings);
             var endpointConfigurationType = GetEndpointConfigurationType(azureSettings);
 
             AssertThatEndpointConfigurationTypeHasDefaultConstructor(endpointConfigurationType);
@@ -29,7 +27,7 @@ namespace NServiceBus.Hosting.Azure
             if (controller != null)
             {
                 var controllerSettings = controller.Configure();
-                host = new DynamicHostController(controllerSettings, requestedProfiles, new List<Type>
+                host = new DynamicHostController(controllerSettings, DefaultRequestedProfiles, new List<Type>
                 {
                     typeof(Development)
                 });
@@ -37,7 +35,7 @@ namespace NServiceBus.Hosting.Azure
             else
             {
                 scannedAssemblies = scannedAssemblies ?? new List<Assembly>();
-                host = new GenericHost((IConfigureThisEndpoint) specifier, requestedProfiles,
+                host = new GenericHost((IConfigureThisEndpoint) specifier, DefaultRequestedProfiles,
                     new List<Type>
                     {
                         typeof(Development)
@@ -67,18 +65,6 @@ namespace NServiceBus.Hosting.Azure
             if (constructor == null)
                 throw new InvalidOperationException(
                     "Endpoint configuration type needs to have a default constructor: " + type.FullName);
-        }
-
-        static string[] GetRequestedProfiles(IAzureConfigurationSettings azureSettings)
-        {
-            string requestedProfileSetting;
-            if (azureSettings.TryGetSetting(ProfileSetting, out requestedProfileSetting))
-            {
-                var requestedProfiles = requestedProfileSetting.Split(' ');
-                requestedProfiles = AddProfilesFromConfiguration(requestedProfiles);
-                return requestedProfiles;
-            }
-            return new string[0];
         }
 
         static Type GetEndpointConfigurationType(AzureConfigurationSettings settings)
@@ -121,7 +107,7 @@ namespace NServiceBus.Hosting.Azure
 
         static void ValidateEndpoints(IList<Type> endpointConfigurationTypes)
         {
-            var count = endpointConfigurationTypes.Count();
+            var count = endpointConfigurationTypes.Count;
             if (count == 0)
             {
                 throw new InvalidOperationException("No endpoint configuration found in scanned assemblies. " +
@@ -143,25 +129,9 @@ namespace NServiceBus.Hosting.Azure
             }
         }
 
-        static string[] AddProfilesFromConfiguration(IEnumerable<string> args)
-        {
-            var list = new List<string>(args);
-
-            var configSection = ConfigurationManager.GetSection("AzureProfileConfig") as AzureProfileConfig;
-
-            if (configSection != null)
-            {
-                var configuredProfiles = configSection.Profiles.Split(',');
-                Array.ForEach(configuredProfiles, s => list.Add(s.Trim()));
-            }
-
-            return list.ToArray();
-        }
-
         IHost host;
-        const string ProfileSetting = "AzureProfileConfig.Profiles";
         const string EndpointConfigurationType = "EndpointConfigurationType";
-
         static List<Assembly> scannedAssemblies;
+        static readonly string[] DefaultRequestedProfiles = new string[0];
     }
 }

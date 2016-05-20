@@ -74,8 +74,8 @@ namespace NServiceBus.Hosting.Azure
 }
 namespace NServiceBus.Hosting
 {
-    [System.ObsoleteAttribute("The profiles configured via AzureProfileConfig are no longer supported. Will be r" +
-        "emoved in version 8.0.0.", true)]
+    [System.ObsoleteAttribute("The profiles configured via DynamicHostControllerConfig are no longer supported. " +
+        "Use `HostingSettings` instead. Will be removed in version 8.0.0.", true)]
     public class DynamicHostControllerConfig : System.Configuration.ConfigurationSection
     {
         public DynamicHostControllerConfig() { }
@@ -96,12 +96,12 @@ namespace NServiceBus.Hosting
     }
     public class HostingSettings
     {
-        public HostingSettings() { }
+        public HostingSettings(string connectionString) { }
         public bool AutoUpdate { get; set; }
-        public string ConnectionString { get; set; }
         public string Container { get; set; }
         public string LocalResource { get; set; }
         public bool RecycleRoleOnError { get; set; }
+        public Microsoft.WindowsAzure.Storage.CloudStorageAccount StorageAccount { get; }
         public int TimeToWaitUntilProcessIsKilled { get; set; }
         public int UpdateInterval { get; set; }
     }

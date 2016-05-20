@@ -4,9 +4,10 @@ namespace NServiceBus.Hosting
     using System.Configuration;
     using Features;
 
-    [ObsoleteEx(Message = "The profiles configured via AzureProfileConfig are no longer supported",
+    [ObsoleteEx(Message = "The profiles configured via DynamicHostControllerConfig are no longer supported",
         TreatAsErrorFromVersion = "7",
-        RemoveInVersion = "8")]
+        RemoveInVersion = "8",
+        ReplacementTypeOrMember = nameof(HostingSettings))]
     public class DynamicHostControllerConfig : ConfigurationSection
     {
         [ConfigurationProperty("ConnectionString", IsRequired = false, DefaultValue = "UseDevelopmentStorage=true")]

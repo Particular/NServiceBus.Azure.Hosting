@@ -31,11 +31,8 @@ namespace NServiceBus.Hosting.Azure
             endpointConfiguration.SendOnly();
             endpoint = Endpoint.Start(endpointConfiguration).GetAwaiter().GetResult();
 
-            loader = new DynamicEndpointLoader
-            {
-                ConnectionString = settings.ConnectionString,
-                Container = settings.Container
-            };
+            loader = new DynamicEndpointLoader(settings.StorageAccount,settings.Container);
+
             provisioner = new DynamicEndpointProvisioner
             {
                 LocalResource = settings.LocalResource,
