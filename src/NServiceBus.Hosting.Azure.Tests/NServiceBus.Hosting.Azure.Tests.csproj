@@ -7,8 +7,8 @@
     <ProjectGuid>{E25B5433-7166-4C10-A76E-C0546F9E2497}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NServiceBus.Host.AzureCloudService.Tests</RootNamespace>
-    <AssemblyName>NServiceBus.Host.AzureCloudService.Tests</AssemblyName>
+    <RootNamespace>NServiceBus.Hosting.Azure.Tests</RootNamespace>
+    <AssemblyName>NServiceBus.Hosting.Azure.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>true</SignAssembly>
