@@ -1,8 +1,7 @@
-﻿namespace NServiceBus.Azure.QuickTests
+﻿namespace NServiceBus.Hosting.Azure.Tests
 {
     using System.Diagnostics;
     using System.Linq;
-    using Hosting.Azure;
     using NUnit.Framework;
 
     [TestFixture]

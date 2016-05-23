@@ -1,17 +1,13 @@
-﻿namespace NServiceBus.Azure.QuickTests
+﻿namespace NServiceBus.Hosting.Azure.Tests
 {
     using System.Configuration;
     using Config.ConfigurationSource;
-    using Integration.Azure;
     using NUnit.Framework;
 
     [TestFixture]
     [Category("Azure")]
     public class When_using_the_azure_configuration_source
     {
-        FakeAzureConfigurationSettings azureSettings;
-        IConfigurationSource configSource;
-
         [SetUp]
         public void SetUp()
         {
@@ -65,6 +61,9 @@
 
             Assert.AreEqual(configSource.GetConfiguration<TestConfigSection>(), configSource.GetConfiguration<TestConfigSection>());
         }
+
+        FakeAzureConfigurationSettings azureSettings;
+        IConfigurationSource configSource;
     }
 
     public class TestConfigSection : ConfigurationSection
@@ -72,29 +71,15 @@
         [ConfigurationProperty("StringSetting", IsRequired = true)]
         public string StringSetting
         {
-            get
-            {
-                return (string)this["StringSetting"];
-            }
-            set
-            {
-                this["StringSetting"] = value;
-            }
-
-
+            get { return (string) this["StringSetting"]; }
+            set { this["StringSetting"] = value; }
         }
 
         [ConfigurationProperty("IntSetting", IsRequired = false)]
         public int IntSetting
         {
-            get
-            {
-                return (int)this["IntSetting"];
-            }
-            set
-            {
-                this["IntSetting"] = value;
-            }
+            get { return (int) this["IntSetting"]; }
+            set { this["IntSetting"] = value; }
         }
     }
 
@@ -103,14 +88,8 @@
         [ConfigurationProperty("SomeSetting", IsRequired = true)]
         public string SomeSetting
         {
-            get
-            {
-                return (string) this["SomeSetting"];
-            }
-            set
-            {
-                this["SomeSetting"] = value;
-            }
+            get { return (string) this["SomeSetting"]; }
+            set { this["SomeSetting"] = value; }
         }
     }
 }

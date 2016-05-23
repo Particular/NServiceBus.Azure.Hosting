@@ -5,7 +5,6 @@ namespace NServiceBus.Hosting.Azure
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
-    using Config;
     using Logging;
 
     class DynamicEndpointRunner

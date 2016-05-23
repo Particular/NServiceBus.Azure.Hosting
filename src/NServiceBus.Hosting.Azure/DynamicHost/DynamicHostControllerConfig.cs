@@ -1,4 +1,4 @@
-namespace NServiceBus.Hosting
+namespace NServiceBus.Hosting.Azure
 {
     using System;
     using System.Configuration;

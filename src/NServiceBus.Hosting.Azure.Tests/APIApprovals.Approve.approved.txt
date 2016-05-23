@@ -19,14 +19,38 @@ namespace NServiceBus
     {
         public static void RunWhenEndpointStartsAndStops(this NServiceBus.EndpointConfiguration configuration, NServiceBus.IWantToRunWhenEndpointStartsAndStops startableAndStoppable) { }
     }
+    public class HostingSettings
+    {
+        public HostingSettings(string connectionString) { }
+        public bool AutoUpdate { get; set; }
+        public string Container { get; set; }
+        public string LocalResource { get; set; }
+        public bool RecycleRoleOnError { get; set; }
+        public Microsoft.WindowsAzure.Storage.CloudStorageAccount StorageAccount { get; }
+        public int TimeToWaitUntilProcessIsKilled { get; set; }
+        public int UpdateInterval { get; set; }
+    }
+    public interface IConfigureLogging
+    {
+        void Configure(NServiceBus.IConfigureThisEndpoint specifier);
+    }
+    public interface IConfigureLoggingForProfile<T> : NServiceBus.IConfigureLogging
+        where T : NServiceBus.IProfile { }
     public interface IConfigureThisEndpoint
     {
         void Customize(NServiceBus.EndpointConfiguration configuration);
     }
     public interface IConfigureThisHost
     {
-        NServiceBus.Hosting.HostingSettings Configure();
+        NServiceBus.HostingSettings Configure();
     }
+    public interface IHandleAnyProfile : NServiceBus.IHandleProfile, NServiceBus.IHandleProfile<NServiceBus.IProfile>, NServiceBus.IWantTheListOfActiveProfiles { }
+    public interface IHandleProfile
+    {
+        void ProfileActivated(NServiceBus.EndpointConfiguration config);
+    }
+    public interface IHandleProfile<T> : NServiceBus.IHandleProfile
+        where T : NServiceBus.IProfile { }
     public interface IProfile { }
     public interface IWantTheListOfActiveProfiles
     {
@@ -38,6 +62,12 @@ namespace NServiceBus
         System.Threading.Tasks.Task Start(NServiceBus.IMessageSession session);
         System.Threading.Tasks.Task Stop(NServiceBus.IMessageSession session);
     }
+    public class NServiceBusRoleEntrypoint
+    {
+        public NServiceBusRoleEntrypoint() { }
+        public void Start() { }
+        public void Stop() { }
+    }
     public class Production : NServiceBus.IProfile
     {
         public Production() { }
@@ -45,7 +75,7 @@ namespace NServiceBus
     public interface UsingTransport<T>
         where T : NServiceBus.Transports.TransportDefinition { }
 }
-namespace NServiceBus.Config
+namespace NServiceBus.Hosting.Azure
 {
     [System.ObsoleteAttribute("The profiles configured via AzureProfileConfig are no longer supported. Will be r" +
         "emoved in version 8.0.0.", true)]
@@ -55,18 +85,6 @@ namespace NServiceBus.Config
         [System.Configuration.ConfigurationPropertyAttribute("Profiles", IsRequired=false)]
         public string Profiles { get; set; }
     }
-}
-namespace NServiceBus.Hosting.Azure
-{
-    public class NServiceBusRoleEntrypoint
-    {
-        public NServiceBusRoleEntrypoint() { }
-        public void Start() { }
-        public void Stop() { }
-    }
-}
-namespace NServiceBus.Hosting
-{
     [System.ObsoleteAttribute("The profiles configured via DynamicHostControllerConfig are no longer supported. " +
         "Use `HostingSettings` instead. Will be removed in version 8.0.0.", true)]
     public class DynamicHostControllerConfig : System.Configuration.ConfigurationSection
@@ -87,31 +105,4 @@ namespace NServiceBus.Hosting
         [System.Configuration.ConfigurationPropertyAttribute("UpdateInterval", DefaultValue=600000, IsRequired=false)]
         public int UpdateInterval { get; set; }
     }
-    public class HostingSettings
-    {
-        public HostingSettings(string connectionString) { }
-        public bool AutoUpdate { get; set; }
-        public string Container { get; set; }
-        public string LocalResource { get; set; }
-        public bool RecycleRoleOnError { get; set; }
-        public Microsoft.WindowsAzure.Storage.CloudStorageAccount StorageAccount { get; }
-        public int TimeToWaitUntilProcessIsKilled { get; set; }
-        public int UpdateInterval { get; set; }
-    }
-}
-namespace NServiceBus.Hosting.Profiles
-{
-    public interface IConfigureLogging
-    {
-        void Configure(NServiceBus.IConfigureThisEndpoint specifier);
-    }
-    public interface IConfigureLoggingForProfile<T> : NServiceBus.Hosting.Profiles.IConfigureLogging
-        where T : NServiceBus.IProfile { }
-    public interface IHandleAnyProfile : NServiceBus.Hosting.Profiles.IHandleProfile, NServiceBus.Hosting.Profiles.IHandleProfile<NServiceBus.IProfile>, NServiceBus.IWantTheListOfActiveProfiles { }
-    public interface IHandleProfile
-    {
-        void ProfileActivated(NServiceBus.EndpointConfiguration config);
-    }
-    public interface IHandleProfile<T> : NServiceBus.Hosting.Profiles.IHandleProfile
-        where T : NServiceBus.IProfile { }
 }

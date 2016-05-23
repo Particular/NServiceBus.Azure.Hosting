@@ -1,6 +1,6 @@
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
-namespace NServiceBus.Hosting
+namespace NServiceBus
 {
     using Microsoft.WindowsAzure.Storage;
 

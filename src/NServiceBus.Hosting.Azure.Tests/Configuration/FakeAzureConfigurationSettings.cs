@@ -1,7 +1,6 @@
-﻿namespace NServiceBus.Azure.QuickTests
+﻿namespace NServiceBus.Hosting.Azure.Tests
 {
     using System.Collections.Generic;
-    using Integration.Azure;
 
     class FakeAzureConfigurationSettings : IAzureConfigurationSettings
     {

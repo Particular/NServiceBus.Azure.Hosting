@@ -1,6 +1,6 @@
 namespace NServiceBus
 {
-    using Integration.Azure;
+    using Hosting.Azure;
 
     /// <summary>
     /// Extension methods that configure the the host.

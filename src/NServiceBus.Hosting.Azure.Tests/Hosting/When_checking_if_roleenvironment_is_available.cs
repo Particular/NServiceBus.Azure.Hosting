@@ -1,4 +1,4 @@
-﻿namespace NServiceBus.Azure.QuickTests
+﻿namespace NServiceBus.Hosting.Azure.Tests
 {
     using Config;
     using NUnit.Framework;

@@ -1,7 +1,5 @@
-namespace NServiceBus.Integration.Azure
-{
-    using Config;
-    
+namespace NServiceBus.Hosting.Azure
+{ 
     class AzureConfigurationSettings : IAzureConfigurationSettings
     {
         public string GetSetting(string name)

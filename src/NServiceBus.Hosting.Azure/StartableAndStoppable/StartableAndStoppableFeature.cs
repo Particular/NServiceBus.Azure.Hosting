@@ -1,4 +1,4 @@
-namespace NServiceBus
+namespace NServiceBus.Hosting.Azure
 {
     using System;
     using System.Collections.Generic;
