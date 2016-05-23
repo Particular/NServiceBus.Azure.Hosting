@@ -9,12 +9,10 @@ namespace NServiceBus.Hosting.Azure
     using System.Threading;
     using System.Threading.Tasks;
     using Config;
-    using Config.ConfigurationSource;
     using Helpers;
-    using Profiles;
-    using Integration.Azure;
     using Logging;
     using NServiceBus.Azure;
+    using Profiles;
 
     class GenericHost : IHost
     {
@@ -40,8 +38,6 @@ namespace NServiceBus.Hosting.Azure
                     .Select(Assembly.Load)
                     .ToList();
             }
-
-            args = AddProfilesFromConfiguration(args);
 
             profileManager = new ProfileManager(assembliesToScan, args, defaultProfiles);
         }
@@ -76,7 +72,7 @@ namespace NServiceBus.Hosting.Azure
             PerformConfiguration(builder => builder.EnableInstallers(username)).GetAwaiter().GetResult();
         }
 
-        Task<IStartableEndpoint> PerformConfiguration(Action<EndpointConfiguration> moreConfiguration = null)
+        async Task<IStartableEndpoint> PerformConfiguration(Action<EndpointConfiguration> moreConfiguration = null)
         {
             var loggingConfigurers = profileManager.GetLoggingConfigurer();
             foreach (var loggingConfigurer in loggingConfigurers)
@@ -107,7 +103,7 @@ namespace NServiceBus.Hosting.Azure
 
             specifier.Customize(configuration);
             RoleManager.TweakConfigurationBuilder(specifier, configuration);
-            return Endpoint.Create(configuration);
+            return await Endpoint.Create(configuration).ConfigureAwait(false);
         }
 
         // Windows hosting behavior when critical error occurs is suicide.
@@ -125,21 +121,6 @@ namespace NServiceBus.Hosting.Azure
             return Task.FromResult(0);
         }
 
-        string[] AddProfilesFromConfiguration(IEnumerable<string> args)
-        {
-            var list = new List<string>(args);
-
-            var configSection = ((IConfigurationSource)new AzureConfigurationSource(new AzureConfigurationSettings())).GetConfiguration<AzureProfileConfig>();
-
-            if (configSection != null)
-            {
-                var configuredProfiles = configSection.Profiles.Split(',');
-                Array.ForEach(configuredProfiles, s => list.Add(s.Trim()));
-            }
-
-            return list.ToArray();
-        }
-
         static Guid DeterministicGuid(params object[] data)
         {
             // use MD5 hash to get a 16-byte hash of the string
@@ -151,11 +132,12 @@ namespace NServiceBus.Hosting.Azure
                 return new Guid(hashBytes);
             }
         }
-        
-        ProfileManager profileManager;
-        IConfigureThisEndpoint specifier;
+
         IEndpointInstance bus;
 
         string endpointNameToUse;
+
+        ProfileManager profileManager;
+        IConfigureThisEndpoint specifier;
     }
 }

@@ -17,7 +17,7 @@ namespace NServiceBus.Hosting
             LastUpdated = blob.Properties.LastModified.HasValue ? blob.Properties.LastModified.Value.DateTime : default(DateTime);
         }
 
-        public string EndpointName { get; private set; }
+        public string EndpointName { get; }
 
         public string EntryPoint { get; set; }
 

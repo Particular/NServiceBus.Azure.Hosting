@@ -1,7 +1,10 @@
 namespace NServiceBus
 {
     /// <summary>
-    /// Indicates this endpoint is a host that merely loads other processes.
+    ///     Indicates this endpoint is a host that merely loads other processes.
     /// </summary>
-    public interface AsA_Host { }
+    [ObsoleteEx(ReplacementTypeOrMember = nameof(IConfigureThisHost), RemoveInVersion = "8", TreatAsErrorFromVersion = "7")]
+    public interface AsA_Host
+    {
+    }
 }

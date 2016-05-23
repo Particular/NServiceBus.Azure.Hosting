@@ -38,10 +38,7 @@
                     thingsRanAtStartup.Add(startable1);
                     Log.DebugFormat("Started {0}.", startableName);
                 }, TaskContinuationOptions.OnlyOnRanToCompletion | TaskContinuationOptions.ExecuteSynchronously);
-                task.ContinueWith(t =>
-                {
-                    Log.Error($"Startup task {startableName} failed to complete.", t.Exception);
-                }, TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously);
+                task.ContinueWith(t => { Log.Error($"Startup task {startableName} failed to complete.", t.Exception); }, TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously);
 
                 startableTasks.Add(task);
             }
@@ -97,7 +94,7 @@
             {
                 await Task.WhenAll(stoppableTasks.ToArray()).ConfigureAwait(false);
             }
-            // ReSharper disable once EmptyGeneralCatchClause
+                // ReSharper disable once EmptyGeneralCatchClause
             catch
             {
                 // ignore because we want to shutdown no matter what.
@@ -124,7 +121,7 @@
 
         IEnumerable<IWantToRunWhenEndpointStartsAndStops> wantToRunWhenBusStartsAndStops;
         ConcurrentBag<IWantToRunWhenEndpointStartsAndStops> thingsRanAtStartup = new ConcurrentBag<IWantToRunWhenEndpointStartsAndStops>();
-        public static ILog Log = LogManager.GetLogger<StartableAndStoppableRunner>();
-        public TimeSpan LongRunningWarningTimeSpan = TimeSpan.FromMinutes(2);
+        TimeSpan LongRunningWarningTimeSpan = TimeSpan.FromMinutes(2);
+        static ILog Log = LogManager.GetLogger<StartableAndStoppableRunner>();
     }
 }

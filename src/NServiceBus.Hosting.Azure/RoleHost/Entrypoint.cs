@@ -1,47 +1,46 @@
 namespace NServiceBus.Hosting.Azure
 {
-    using System.Reflection;
-    using Config;
-    using Helpers;
-    using Integration.Azure;
     using System;
-    using System.Linq;
     using System.Collections.Generic;
     using System.Configuration;
     using System.Diagnostics;
+    using System.Linq;
+    using System.Reflection;
+    using Helpers;
+    using Integration.Azure;
 
     public class NServiceBusRoleEntrypoint
     {
-        const string ProfileSetting = "AzureProfileConfig.Profiles";
-        const string EndpointConfigurationType = "EndpointConfigurationType";
-        IHost host;
-
-        static List<Assembly> scannedAssemblies;
-
         public NServiceBusRoleEntrypoint()
         {
             AppDomain.CurrentDomain.UnhandledException += CurrentDomainUnhandledException;
 
             var azureSettings = new AzureConfigurationSettings();
 
-            var requestedProfiles = GetRequestedProfiles(azureSettings);
             var endpointConfigurationType = GetEndpointConfigurationType(azureSettings);
 
             AssertThatEndpointConfigurationTypeHasDefaultConstructor(endpointConfigurationType);
 
-            var specifier = (IConfigureThisEndpoint)Activator.CreateInstance(endpointConfigurationType);
+            var specifier = Activator.CreateInstance(endpointConfigurationType);
 
-            if (specifier is AsA_Host)
+            var controller = specifier as IConfigureThisHost;
+            if (controller != null)
             {
-                host = new DynamicHostController(specifier, requestedProfiles, new List<Type> { typeof(Development) });
+                var controllerSettings = controller.Configure();
+                host = new DynamicHostController(controllerSettings, DefaultRequestedProfiles, new List<Type>
+                {
+                    typeof(Development)
+                });
             }
             else
             {
                 scannedAssemblies = scannedAssemblies ?? new List<Assembly>();
-                host = new GenericHost(specifier, requestedProfiles,
-                    new List<Type> { typeof(Development) }, scannedAssemblies.Select(s => s.ToString()));
+                host = new GenericHost((IConfigureThisEndpoint) specifier, DefaultRequestedProfiles,
+                    new List<Type>
+                    {
+                        typeof(Development)
+                    }, scannedAssemblies.Select(s => s.ToString()));
             }
-
         }
 
         static void CurrentDomainUnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -66,18 +65,6 @@ namespace NServiceBus.Hosting.Azure
             if (constructor == null)
                 throw new InvalidOperationException(
                     "Endpoint configuration type needs to have a default constructor: " + type.FullName);
-        }
-
-        static string[] GetRequestedProfiles(IAzureConfigurationSettings azureSettings)
-        {
-            string requestedProfileSetting;
-            if (azureSettings.TryGetSetting(ProfileSetting, out requestedProfileSetting))
-            {
-                var requestedProfiles = requestedProfileSetting.Split(' ');
-                requestedProfiles = AddProfilesFromConfiguration(requestedProfiles);
-                return requestedProfiles;
-            }
-            return new string[0];
         }
 
         static Type GetEndpointConfigurationType(AzureConfigurationSettings settings)
@@ -120,7 +107,7 @@ namespace NServiceBus.Hosting.Azure
 
         static void ValidateEndpoints(IList<Type> endpointConfigurationTypes)
         {
-            var count = endpointConfigurationTypes.Count();
+            var count = endpointConfigurationTypes.Count;
             if (count == 0)
             {
                 throw new InvalidOperationException("No endpoint configuration found in scanned assemblies. " +
@@ -139,23 +126,12 @@ namespace NServiceBus.Hosting.Azure
                                                     " You may have some old assemblies in your runtime directory." +
                                                     " Try right-clicking your VS project, and selecting 'Clean'."
                     );
-
             }
         }
 
-        static string[] AddProfilesFromConfiguration(IEnumerable<string> args)
-        {
-            var list = new List<string>(args);
-
-            var configSection = ConfigurationManager.GetSection("AzureProfileConfig") as AzureProfileConfig;
-
-            if (configSection != null)
-            {
-                var configuredProfiles = configSection.Profiles.Split(',');
-                Array.ForEach(configuredProfiles, s => list.Add(s.Trim()));
-            }
-
-            return list.ToArray();
-        }
+        IHost host;
+        const string EndpointConfigurationType = "EndpointConfigurationType";
+        static List<Assembly> scannedAssemblies;
+        static readonly string[] DefaultRequestedProfiles = new string[0];
     }
 }

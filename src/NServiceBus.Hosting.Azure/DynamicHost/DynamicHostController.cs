@@ -3,16 +3,18 @@ namespace NServiceBus.Hosting.Azure
     using System;
     using System.Collections.Generic;
     using System.Reflection;
-    using Configuration.AdvanceExtensibility;
     using Profiles;
 
     class DynamicHostController : IHost
     {
-        public DynamicHostController(IConfigureThisEndpoint specifier, string[] requestedProfiles, List<Type> defaultProfiles)
+        public DynamicHostController(HostingSettings settings, string[] requestedProfiles, List<Type> defaultProfiles)
         {
-            this.specifier = specifier;
+            this.settings = settings;
 
-            var assembliesToScan = new List<Assembly> { GetType().Assembly };
+            var assembliesToScan = new List<Assembly>
+            {
+                GetType().Assembly
+            };
 
             profileManager = new ProfileManager(assembliesToScan, requestedProfiles, defaultProfiles);
         }
@@ -25,28 +27,22 @@ namespace NServiceBus.Hosting.Azure
             endpointConfiguration.UsePersistence<InMemoryPersistence>();
 
             profileManager.ActivateProfileHandlers(endpointConfiguration);
-            specifier.Customize(endpointConfiguration);
 
             endpointConfiguration.SendOnly();
             endpoint = Endpoint.Start(endpointConfiguration).GetAwaiter().GetResult();
 
-            var configSection = endpointConfiguration.GetSettings().GetConfigSection<DynamicHostControllerConfig>() ?? new DynamicHostControllerConfig();
+            loader = new DynamicEndpointLoader(settings.StorageAccount,settings.Container);
 
-            loader = new DynamicEndpointLoader
-            {
-                ConnectionString = configSection.ConnectionString,
-                Container = configSection.Container
-            };
             provisioner = new DynamicEndpointProvisioner
             {
-                LocalResource = configSection.LocalResource,
-                RecycleRoleOnError = configSection.RecycleRoleOnError
+                LocalResource = settings.LocalResource,
+                RecycleRoleOnError = settings.RecycleRoleOnError
             };
 
             runner = new DynamicEndpointRunner
             {
-                RecycleRoleOnError = configSection.RecycleRoleOnError,
-                TimeToWaitUntilProcessIsKilled = configSection.TimeToWaitUntilProcessIsKilled
+                RecycleRoleOnError = settings.RecycleRoleOnError,
+                TimeToWaitUntilProcessIsKilled = settings.TimeToWaitUntilProcessIsKilled
             };
 
             var endpointsToHost = loader.LoadEndpoints();
@@ -59,12 +55,12 @@ namespace NServiceBus.Hosting.Azure
 
             runner.Start(runningServices);
 
-            if (!configSection.AutoUpdate) return;
+            if (!settings.AutoUpdate) return;
 
             monitor = new DynamicHostMonitor
             {
                 Loader = loader,
-                Interval = configSection.UpdateInterval
+                Interval = settings.UpdateInterval
             };
             monitor.UpdatedEndpoints += UpdatedEndpoints;
             monitor.NewEndpoints += NewEndpoints;
@@ -110,13 +106,14 @@ namespace NServiceBus.Hosting.Azure
                 runningServices.Remove(endpoint);
         }
 
-        IConfigureThisEndpoint specifier;
-        ProfileManager profileManager;
+        IEndpointInstance endpoint;
         DynamicEndpointLoader loader;
+        DynamicHostMonitor monitor;
+        ProfileManager profileManager;
         DynamicEndpointProvisioner provisioner;
         DynamicEndpointRunner runner;
-        DynamicHostMonitor monitor;
         List<EndpointToHost> runningServices;
-        IEndpointInstance endpoint;
+
+        HostingSettings settings;
     }
 }

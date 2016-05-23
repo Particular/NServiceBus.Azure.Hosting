@@ -4,6 +4,7 @@
 [assembly: System.Runtime.Versioning.TargetFrameworkAttribute(".NETFramework,Version=v4.5.2", FrameworkDisplayName=".NET Framework 4.5.2")]
 namespace NServiceBus
 {
+    [System.ObsoleteAttribute("Use `IConfigureThisHost` instead. Will be removed in version 8.0.0.", true)]
     public interface AsA_Host { }
     public interface AsA_Worker { }
     public class static ConfigureAzureIntegration
@@ -21,6 +22,10 @@ namespace NServiceBus
     public interface IConfigureThisEndpoint
     {
         void Customize(NServiceBus.EndpointConfiguration configuration);
+    }
+    public interface IConfigureThisHost
+    {
+        NServiceBus.Hosting.HostingSettings Configure();
     }
     public interface IProfile { }
     public interface IWantTheListOfActiveProfiles
@@ -42,6 +47,8 @@ namespace NServiceBus
 }
 namespace NServiceBus.Config
 {
+    [System.ObsoleteAttribute("The profiles configured via AzureProfileConfig are no longer supported. Will be r" +
+        "emoved in version 8.0.0.", true)]
     public class AzureProfileConfig : System.Configuration.ConfigurationSection
     {
         public AzureProfileConfig() { }
@@ -60,6 +67,8 @@ namespace NServiceBus.Hosting.Azure
 }
 namespace NServiceBus.Hosting
 {
+    [System.ObsoleteAttribute("The profiles configured via DynamicHostControllerConfig are no longer supported. " +
+        "Use `HostingSettings` instead. Will be removed in version 8.0.0.", true)]
     public class DynamicHostControllerConfig : System.Configuration.ConfigurationSection
     {
         public DynamicHostControllerConfig() { }
@@ -76,6 +85,17 @@ namespace NServiceBus.Hosting
         [System.Configuration.ConfigurationPropertyAttribute("TimeToWaitUntilProcessIsKilled", DefaultValue=10000, IsRequired=false)]
         public int TimeToWaitUntilProcessIsKilled { get; set; }
         [System.Configuration.ConfigurationPropertyAttribute("UpdateInterval", DefaultValue=600000, IsRequired=false)]
+        public int UpdateInterval { get; set; }
+    }
+    public class HostingSettings
+    {
+        public HostingSettings(string connectionString) { }
+        public bool AutoUpdate { get; set; }
+        public string Container { get; set; }
+        public string LocalResource { get; set; }
+        public bool RecycleRoleOnError { get; set; }
+        public Microsoft.WindowsAzure.Storage.CloudStorageAccount StorageAccount { get; }
+        public int TimeToWaitUntilProcessIsKilled { get; set; }
         public int UpdateInterval { get; set; }
     }
 }

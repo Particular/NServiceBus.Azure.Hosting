@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using ApiApprover;
 using ApprovalTests;
 using Mono.Cecil;
-using NServiceBus.Config;
+using NServiceBus.Hosting.Azure;
 using NUnit.Framework;
 
 [TestFixture]
@@ -15,7 +15,7 @@ public class APIApprovals
     [MethodImpl(MethodImplOptions.NoInlining)]
     public void Approve()
     {
-        var assemblyPath = Path.GetFullPath(typeof(AzureProfileConfig).Assembly.Location);
+        var assemblyPath = Path.GetFullPath(typeof(GenericHost).Assembly.Location);
         var asm = AssemblyDefinition.ReadAssembly(assemblyPath);
         var publicApi = Filter(PublicApiGenerator.CreatePublicApiForAssembly(asm));
         Approvals.Verify(publicApi);
@@ -31,5 +31,4 @@ public class APIApprovals
             .Where(l => !string.IsNullOrWhiteSpace(l))
             );
     }
-
 }
