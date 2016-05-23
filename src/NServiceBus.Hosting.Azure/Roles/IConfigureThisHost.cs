@@ -1,7 +1,5 @@
 namespace NServiceBus
 {
-    using Hosting;
-
     /// <summary>
     /// Indicates that the implementing class will configure the host.
     /// </summary>
