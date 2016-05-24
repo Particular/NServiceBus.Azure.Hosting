@@ -5,6 +5,7 @@
     /// the Profile(s) that are active. Useful for implementing special functionality if
     /// a specific profile is activated, and implementing default functionality otherwise.
     /// </summary>
+    [ObsoleteEx(ReplacementTypeOrMember = nameof(IConfigureThisEndpoint), RemoveInVersion = "8", TreatAsErrorFromVersion = "7")]
     public interface IHandleAnyProfile : IHandleProfile<IProfile>, IWantTheListOfActiveProfiles
     {
     }

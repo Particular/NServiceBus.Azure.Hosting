@@ -11,6 +11,7 @@ namespace NServiceBus
     {
         public static void AzureConfigurationSource(this NServiceBus.EndpointConfiguration config, string configurationPrefix = null) { }
     }
+    [System.ObsoleteAttribute("Use `IConfigureThisEndpoint` instead. Will be removed in version 8.0.0.", true)]
     public class Development : NServiceBus.IProfile
     {
         public Development() { }
@@ -30,10 +31,14 @@ namespace NServiceBus
         public int TimeToWaitUntilProcessIsKilled { get; set; }
         public int UpdateInterval { get; set; }
     }
+    [System.ObsoleteAttribute("Configure Azure Diagnostics through Visual Studio or .wadcfgx instead. Will be re" +
+        "moved in version 8.0.0.", true)]
     public interface IConfigureLogging
     {
         void Configure(NServiceBus.IConfigureThisEndpoint specifier);
     }
+    [System.ObsoleteAttribute("Configure Azure Diagnostics through Visual Studio or .wadcfgx instead. Will be re" +
+        "moved in version 8.0.0.", true)]
     public interface IConfigureLoggingForProfile<T> : NServiceBus.IConfigureLogging
         where T : NServiceBus.IProfile { }
     public interface IConfigureThisEndpoint
@@ -44,14 +49,19 @@ namespace NServiceBus
     {
         NServiceBus.HostingSettings Configure();
     }
+    [System.ObsoleteAttribute("Use `IConfigureThisEndpoint` instead. Will be removed in version 8.0.0.", true)]
     public interface IHandleAnyProfile : NServiceBus.IHandleProfile, NServiceBus.IHandleProfile<NServiceBus.IProfile>, NServiceBus.IWantTheListOfActiveProfiles { }
+    [System.ObsoleteAttribute("Use `IConfigureThisEndpoint` instead. Will be removed in version 8.0.0.", true)]
     public interface IHandleProfile
     {
         void ProfileActivated(NServiceBus.EndpointConfiguration config);
     }
+    [System.ObsoleteAttribute("Use `IConfigureThisEndpoint` instead. Will be removed in version 8.0.0.", true)]
     public interface IHandleProfile<T> : NServiceBus.IHandleProfile
         where T : NServiceBus.IProfile { }
+    [System.ObsoleteAttribute("Use `IConfigureThisEndpoint` instead. Will be removed in version 8.0.0.", true)]
     public interface IProfile { }
+    [System.ObsoleteAttribute("Use `IConfigureThisEndpoint` instead. Will be removed in version 8.0.0.", true)]
     public interface IWantTheListOfActiveProfiles
     {
         System.Collections.Generic.IEnumerable<System.Type> ActiveProfiles { get; set; }
@@ -68,10 +78,12 @@ namespace NServiceBus
         public void Start() { }
         public void Stop() { }
     }
+    [System.ObsoleteAttribute("Use `IConfigureThisEndpoint` instead. Will be removed in version 8.0.0.", true)]
     public class Production : NServiceBus.IProfile
     {
         public Production() { }
     }
+    [System.ObsoleteAttribute("Use `UseTransportExtensions` instead. Will be removed in version 8.0.0.", true)]
     public interface UsingTransport<T>
         where T : NServiceBus.Transports.TransportDefinition { }
 }

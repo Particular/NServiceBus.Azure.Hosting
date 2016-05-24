@@ -1,42 +1,20 @@
 namespace NServiceBus.Hosting.Azure
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
     using System.Security.Cryptography;
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
-    using Helpers;
     using Logging;
 
     class GenericHost : IHost
     {
-        public GenericHost(IConfigureThisEndpoint specifier, string[] args, List<Type> defaultProfiles,
-            IEnumerable<string> scannableAssembliesFullName = null)
+        public GenericHost(IConfigureThisEndpoint specifier)
         {
             this.specifier = specifier;
 
             endpointNameToUse = specifier.GetType().Namespace ?? specifier.GetType().Assembly.GetName().Name;
 
-            List<Assembly> assembliesToScan;
-
-            if (scannableAssembliesFullName == null || !scannableAssembliesFullName.Any())
-            {
-                var assemblyScanner = new AssemblyScanner();
-                assembliesToScan = assemblyScanner
-                    .GetScannableAssemblies()
-                    .Assemblies;
-            }
-            else
-            {
-                assembliesToScan = scannableAssembliesFullName
-                    .Select(Assembly.Load)
-                    .ToList();
-            }
-
-            profileManager = new ProfileManager(assembliesToScan, args, defaultProfiles);
         }
 
         public void Start()
@@ -71,12 +49,6 @@ namespace NServiceBus.Hosting.Azure
 
         async Task<IStartableEndpoint> PerformConfiguration(Action<EndpointConfiguration> moreConfiguration = null)
         {
-            var loggingConfigurers = profileManager.GetLoggingConfigurer();
-            foreach (var loggingConfigurer in loggingConfigurers)
-            {
-                loggingConfigurer.Configure(specifier);
-            }
-
             var configuration = new EndpointConfiguration(endpointNameToUse);
             configuration.DefineCriticalErrorAction(OnCriticalError);
 
@@ -99,7 +71,6 @@ namespace NServiceBus.Hosting.Azure
             moreConfiguration?.Invoke(configuration);
 
             specifier.Customize(configuration);
-            RoleManager.TweakConfigurationBuilder(specifier, configuration);
             return await Endpoint.Create(configuration).ConfigureAwait(false);
         }
 
@@ -134,7 +105,6 @@ namespace NServiceBus.Hosting.Azure
 
         string endpointNameToUse;
 
-        ProfileManager profileManager;
         IConfigureThisEndpoint specifier;
     }
 }
