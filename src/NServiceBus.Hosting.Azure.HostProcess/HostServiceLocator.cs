@@ -7,16 +7,11 @@ namespace NServiceBus.Hosting.Azure.HostProcess
 
     class HostServiceLocator : ServiceLocatorImplBase
     {
-        public static string[] Args;
-
         protected override object DoGetInstance(Type serviceType, string key)
         {
             var endpoint = Type.GetType(key,true);
 
-            var scannableString = Args.First(a => a.StartsWith("/scannedAssemblies="));
-            var scannableAssembliesFullName = scannableString.Replace("/scannedAssemblies=","").Split(';');
-
-            return new WindowsHost(endpoint, Args, scannableAssembliesFullName);
+            return new WindowsHost(endpoint);
         }
 
         protected override IEnumerable<object> DoGetAllInstances(Type serviceType)

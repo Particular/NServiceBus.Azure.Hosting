@@ -37,10 +37,6 @@
 
             EndpointId = GetEndpointId(endpointConfiguration);
 
-            scannedAssemblies = scannedAssemblies ?? new List<Assembly>();
-            var assemblylist = string.Join(";", scannedAssemblies.Select((s => s.ToString())));
-            args = args.Concat(new[]{$"/scannedAssemblies={assemblylist}"}).ToArray();
-
             AppDomain.CurrentDomain.SetupInformation.AppDomainInitializerArguments = args;
 
             var cfg = RunnerConfigurator.New(x =>
@@ -48,7 +44,7 @@
                 x.ConfigureServiceInIsolation<WindowsHost>(endpointConfigurationType.AssemblyQualifiedName, c =>
                 {
                     c.ConfigurationFile(endpointConfigurationFile);
-                    c.CommandLineArguments(args, () => SetHostServiceLocatorArgs);
+                    c.CommandLineArguments(args, () => (strings => {}) );
                     c.WhenStarted(service => service.Start());
                     c.WhenStopped(service => service.Stop());
                     c.CreateServiceLocator(() => new HostServiceLocator());
@@ -124,11 +120,6 @@
         /// Gives an identifier for this endpoint
         /// </summary>
         public static string EndpointId { get; set; }
-
-        static void SetHostServiceLocatorArgs(string[] args)
-        {
-            HostServiceLocator.Args = args;
-        }
 
         static void AssertThatEndpointConfigurationTypeHasDefaultConstructor(Type type)
         {
@@ -237,6 +228,5 @@
 
             }
         }
-
     }
 }

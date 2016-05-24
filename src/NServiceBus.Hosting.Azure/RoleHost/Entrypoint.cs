@@ -5,7 +5,6 @@ namespace NServiceBus
     using System.Configuration;
     using System.Diagnostics;
     using System.Linq;
-    using System.Reflection;
     using Hosting.Azure;
     using Hosting.Helpers;
 
@@ -33,19 +32,11 @@ namespace NServiceBus
             if (controller != null)
             {
                 var controllerSettings = controller.Configure();
-                host = new DynamicHostController(controllerSettings, DefaultRequestedProfiles, new List<Type>
-                {
-                    typeof(Development)
-                });
+                host = new DynamicHostController(controllerSettings);
             }
             else
             {
-                scannedAssemblies = scannedAssemblies ?? new List<Assembly>();
-                host = new GenericHost((IConfigureThisEndpoint) specifier, DefaultRequestedProfiles,
-                    new List<Type>
-                    {
-                        typeof(Development)
-                    }, scannedAssemblies.Select(s => s.ToString()));
+                host = new GenericHost((IConfigureThisEndpoint) specifier);
             }
         }
 
@@ -101,15 +92,13 @@ namespace NServiceBus
 
         static IEnumerable<Type> ScanAssembliesForEndpoints()
         {
-            if (scannedAssemblies == null)
+            var assemblyScanner = new AssemblyScanner
             {
-                var assemblyScanner = new AssemblyScanner
-                {
-                    ThrowExceptions = false
-                };
+                ThrowExceptions = false
+            };
 
-                scannedAssemblies = assemblyScanner.GetScannableAssemblies().Assemblies;
-            }
+            var scannedAssemblies = assemblyScanner.GetScannableAssemblies().Assemblies;
+            
             return scannedAssemblies.SelectMany(
                 assembly => assembly.GetTypes().Where(
                     t => typeof(IConfigureThisEndpoint).IsAssignableFrom(t)
@@ -143,7 +132,5 @@ namespace NServiceBus
 
         IHost host;
         const string EndpointConfigurationType = "EndpointConfigurationType";
-        static List<Assembly> scannedAssemblies;
-        static readonly string[] DefaultRequestedProfiles = new string[0];
     }
 }

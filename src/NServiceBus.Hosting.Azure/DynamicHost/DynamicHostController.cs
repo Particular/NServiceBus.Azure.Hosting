@@ -1,21 +1,12 @@
 namespace NServiceBus.Hosting.Azure
 {
-    using System;
     using System.Collections.Generic;
-    using System.Reflection;
 
     class DynamicHostController : IHost
     {
-        public DynamicHostController(HostingSettings settings, string[] requestedProfiles, List<Type> defaultProfiles)
+        public DynamicHostController(HostingSettings settings)
         {
             this.settings = settings;
-
-            var assembliesToScan = new List<Assembly>
-            {
-                GetType().Assembly
-            };
-
-            profileManager = new ProfileManager(assembliesToScan, requestedProfiles, defaultProfiles);
         }
 
         public void Start()
@@ -24,8 +15,6 @@ namespace NServiceBus.Hosting.Azure
             endpointConfiguration.AzureConfigurationSource();
 
             endpointConfiguration.UsePersistence<InMemoryPersistence>();
-
-            profileManager.ActivateProfileHandlers(endpointConfiguration);
 
             endpointConfiguration.SendOnly();
             endpoint = Endpoint.Start(endpointConfiguration).GetAwaiter().GetResult();
@@ -108,7 +97,6 @@ namespace NServiceBus.Hosting.Azure
         IEndpointInstance endpoint;
         DynamicEndpointLoader loader;
         DynamicHostMonitor monitor;
-        ProfileManager profileManager;
         DynamicEndpointProvisioner provisioner;
         DynamicEndpointRunner runner;
         List<EndpointToHost> runningServices;
