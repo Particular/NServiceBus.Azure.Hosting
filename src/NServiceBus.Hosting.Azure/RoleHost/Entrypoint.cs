@@ -1,4 +1,4 @@
-namespace NServiceBus.Hosting.Azure
+namespace NServiceBus
 {
     using System;
     using System.Collections.Generic;
@@ -6,11 +6,17 @@ namespace NServiceBus.Hosting.Azure
     using System.Diagnostics;
     using System.Linq;
     using System.Reflection;
-    using Helpers;
-    using Integration.Azure;
+    using Hosting.Azure;
+    using Hosting.Helpers;
 
+    /// <summary>
+    /// Adapts endpoint host to interface that is easily integrated with Azure role entry point class.
+    /// </summary>
     public class NServiceBusRoleEntrypoint
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="NServiceBusRoleEntrypoint" />.
+        /// </summary>
         public NServiceBusRoleEntrypoint()
         {
             AppDomain.CurrentDomain.UnhandledException += CurrentDomainUnhandledException;
@@ -48,11 +54,17 @@ namespace NServiceBus.Hosting.Azure
             Trace.WriteLine("Unhandled exception occured: " + e.ExceptionObject);
         }
 
+        /// <summary>
+        /// Starts the endpoint host.
+        /// </summary>
         public void Start()
         {
             host.Start();
         }
 
+        /// <summary>
+        /// Stops the endpoint host.
+        /// </summary>
         public void Stop()
         {
             host.Stop();

@@ -1,8 +1,7 @@
-﻿namespace NServiceBus.Azure.QuickTests
+﻿namespace NServiceBus.Hosting.Azure.Tests
 {
     using System;
     using System.Reflection;
-    using Hosting;
     using NUnit.Framework;
 
     public class When_using_obsoleted_config_sections
@@ -46,6 +45,6 @@
             }
         }
 
-        static readonly Type ConfigSectionType = typeof(DetectObsoleteDynamicHostControllerConfig).Assembly.GetType("NServiceBus.Hosting.DynamicHostControllerConfig");
+        static readonly Type ConfigSectionType = typeof(DetectObsoleteDynamicHostControllerConfig).Assembly.GetType("NServiceBus.Hosting.Azure.DynamicHostControllerConfig");
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace NServiceBus.Hosting.Profiles
+﻿namespace NServiceBus
 {
     /// <summary>
     /// Abstraction for code that will be called that will take dependent action based upon

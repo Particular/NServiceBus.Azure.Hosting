@@ -1,9 +1,10 @@
-namespace NServiceBus.Hosting
+namespace NServiceBus.Hosting.Azure
 {
     using System;
     using System.Configuration;
     using Features;
 
+#pragma warning disable 1591
     [ObsoleteEx(Message = "The profiles configured via DynamicHostControllerConfig are no longer supported",
         TreatAsErrorFromVersion = "7",
         RemoveInVersion = "8",
@@ -59,6 +60,7 @@ namespace NServiceBus.Hosting
             set { this["TimeToWaitUntilProcessIsKilled"] = value; }
         }
     }
+#pragma warning restore 1591
 
     sealed class DetectObsoleteDynamicHostControllerConfig : Feature
     {

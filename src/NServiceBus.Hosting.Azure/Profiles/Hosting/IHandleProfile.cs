@@ -1,4 +1,4 @@
-﻿namespace NServiceBus.Hosting.Profiles
+﻿namespace NServiceBus
 {
     /// <summary>
     /// Generic abstraction for code which will be called when the given profile is active.

@@ -1,4 +1,4 @@
-﻿namespace NServiceBus.Hosting.Profiles
+﻿namespace NServiceBus
 {
     /// <summary>
     /// Called in order to configure logging.

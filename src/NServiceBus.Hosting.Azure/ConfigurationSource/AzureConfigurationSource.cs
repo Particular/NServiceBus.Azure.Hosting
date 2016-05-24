@@ -1,4 +1,4 @@
-namespace NServiceBus.Integration.Azure
+namespace NServiceBus.Hosting.Azure
 {
     using System;
     using System.Collections.Concurrent;

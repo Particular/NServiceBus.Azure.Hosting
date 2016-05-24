@@ -2,11 +2,10 @@
 {
     using System;
     using System.Collections.Generic;
-    using Hosting.Profiles;
 
     /// <summary>
-    /// Implementors will receive the list of active Profiles from the <see cref="ProfileManager" />. 
-    /// Implementors must implement <see cref="IHandleProfile"/>.
+    /// Implementors will receive the list of active Profiles from the <see cref="ProfileManager" />.
+    /// Implementors must implement <see cref="IHandleProfile" />.
     /// </summary>
     public interface IWantTheListOfActiveProfiles
     {

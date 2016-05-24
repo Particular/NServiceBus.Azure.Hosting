@@ -1,4 +1,4 @@
-﻿namespace NServiceBus
+﻿namespace NServiceBus.Hosting.Azure
 {
     using System;
     using System.Collections.Concurrent;
@@ -6,7 +6,6 @@
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
-    using Hosting;
     using Logging;
 
     class StartableAndStoppableRunner

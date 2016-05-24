@@ -1,4 +1,4 @@
-namespace NServiceBus.Hosting.Profiles
+namespace NServiceBus
 {
     using System;
     using System.Collections.Generic;

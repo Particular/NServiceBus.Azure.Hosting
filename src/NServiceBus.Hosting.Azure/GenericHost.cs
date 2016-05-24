@@ -8,11 +8,8 @@ namespace NServiceBus.Hosting.Azure
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
-    using Config;
     using Helpers;
     using Logging;
-    using NServiceBus.Azure;
-    using Profiles;
 
     class GenericHost : IHost
     {

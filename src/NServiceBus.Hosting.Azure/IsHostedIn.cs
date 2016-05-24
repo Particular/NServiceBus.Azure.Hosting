@@ -1,4 +1,4 @@
-﻿namespace NServiceBus.Azure
+﻿namespace NServiceBus.Hosting.Azure
 {
     using System.Diagnostics;
 

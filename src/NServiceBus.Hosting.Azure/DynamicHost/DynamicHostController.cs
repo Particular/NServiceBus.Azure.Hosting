@@ -3,7 +3,6 @@ namespace NServiceBus.Hosting.Azure
     using System;
     using System.Collections.Generic;
     using System.Reflection;
-    using Profiles;
 
     class DynamicHostController : IHost
     {
