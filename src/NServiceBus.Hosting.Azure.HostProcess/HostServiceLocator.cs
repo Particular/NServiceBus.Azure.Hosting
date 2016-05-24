@@ -1,6 +1,5 @@
 namespace NServiceBus.Hosting.Azure.HostProcess
 {
-    using System.Linq;
     using System;
     using System.Collections.Generic;
     using Microsoft.Practices.ServiceLocation;

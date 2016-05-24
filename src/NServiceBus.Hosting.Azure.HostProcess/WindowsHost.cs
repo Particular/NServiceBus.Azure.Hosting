@@ -1,7 +1,6 @@
 namespace NServiceBus.Hosting.Azure.HostProcess
 {
     using System;
-    using System.Collections.Generic;
 
     class WindowsHost : MarshalByRefObject
     {
