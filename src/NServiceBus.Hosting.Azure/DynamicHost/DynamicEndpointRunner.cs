@@ -19,10 +19,7 @@ namespace NServiceBus.Hosting.Azure
             {
                 try
                 {
-                    var processStartInfo = new ProcessStartInfo(service.EntryPoint,
-                        "/serviceName:\"" + service.EndpointName +
-                        "\" /displayName:\"" + service.EndpointName +
-                        "\" /description:\"" + service.EndpointName + "\"")
+                    var processStartInfo = new ProcessStartInfo(service.EntryPoint)
                     {
                         UseShellExecute = false,
                         CreateNoWindow = true,

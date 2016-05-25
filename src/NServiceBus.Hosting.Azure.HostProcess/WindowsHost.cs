@@ -10,8 +10,6 @@ namespace NServiceBus.Hosting.Azure.HostProcess
         {
             var specifier = (IConfigureThisEndpoint)Activator.CreateInstance(endpointType);
 
-            Program.EndpointId = Program.GetEndpointId(specifier);
-
             genericHost = new GenericHost(specifier);
         }
 
