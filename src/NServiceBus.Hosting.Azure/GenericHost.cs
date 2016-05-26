@@ -45,7 +45,7 @@ namespace NServiceBus.Hosting.Azure
             PerformConfiguration(builder => builder.EnableInstallers(username)).GetAwaiter().GetResult();
         }
 
-        async Task<IStartableEndpoint> PerformConfiguration(Action<EndpointConfiguration> moreConfiguration = null)
+        Task<IStartableEndpoint> PerformConfiguration(Action<EndpointConfiguration> moreConfiguration = null)
         {
             var configuration = new EndpointConfiguration(endpointNameToUse);
             configuration.DefineCriticalErrorAction(OnCriticalError);
@@ -59,16 +59,17 @@ namespace NServiceBus.Hosting.Azure
 
                 var host = SafeRoleEnvironment.CurrentRoleName;
                 var instance = SafeRoleEnvironment.CurrentRoleInstanceId;
+                var displayName = $"{host}_{instance}";
                 configuration
                     .UniquelyIdentifyRunningInstance()
                     .UsingNames(instance, host)
-                    .UsingCustomDisplayName(instance);
+                    .UsingCustomDisplayName(displayName);
             }
 
             moreConfiguration?.Invoke(configuration);
 
             specifier.Customize(configuration);
-            return await Endpoint.Create(configuration).ConfigureAwait(false);
+            return Endpoint.Create(configuration);
         }
 
         // Windows hosting behavior when critical error occurs is suicide.
