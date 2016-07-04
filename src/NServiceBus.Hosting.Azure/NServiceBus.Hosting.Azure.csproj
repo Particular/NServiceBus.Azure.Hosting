@@ -113,6 +113,7 @@
     <Compile Include="DynamicHost\DynamicHostMonitor.cs" />
     <Compile Include="DynamicHost\EndpointsEventArgs.cs" />
     <Compile Include="DynamicHost\EndpointToHost.cs" />
+    <Compile Include="EndpointConfigurationExtensions.cs" />
     <Compile Include="FileVersionRetriever.cs" />
     <Compile Include="GenericHost.cs" />
     <Compile Include="IConfigureThisEndpoint.cs" />
@@ -134,7 +135,7 @@
     <Compile Include="Roles\AsA_Host.cs" />
     <Compile Include="Roles\AsA_Worker.cs" />
     <Compile Include="Roles\UsingTransport.cs" />
-    <Compile Include="StartableAndStoppable\EndpointConfigurationExtensions.cs" />
+    <Compile Include="StartableAndStoppable\EndpointStartableAndStoppableExtensions.cs" />
     <Compile Include="StartableAndStoppable\IWantToRunWhenEndpointStartsAndStops.cs" />
     <Compile Include="StartableAndStoppable\StartableAndStoppableFeature.cs" />
     <Compile Include="StartableAndStoppable\StartableAndStoppableRunner.cs" />

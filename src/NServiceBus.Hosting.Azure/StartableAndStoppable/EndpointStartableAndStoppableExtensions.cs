@@ -4,9 +4,9 @@ namespace NServiceBus
     using Configuration.AdvanceExtensibility;
 
     /// <summary>
-    /// Extension methods for EndpointConfiguration
+    /// Extension methods for EndpointConfiguration.
     /// </summary>
-    public static class EndpointConfigurationExtensions
+    public static class EndpointStartableAndStoppableExtensions
     {
         /// <summary>
         /// Register a specific instance of an IWantToRunWhenEndpointStartsAndStops implementation
