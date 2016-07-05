@@ -18,6 +18,10 @@ namespace NServiceBus
     }
     public class static EndpointConfigurationExtensions
     {
+        public static void DefineEndpointName(this NServiceBus.EndpointConfiguration configuration, string endpointName) { }
+    }
+    public class static EndpointStartableAndStoppableExtensions
+    {
         public static void RunWhenEndpointStartsAndStops(this NServiceBus.EndpointConfiguration configuration, NServiceBus.IWantToRunWhenEndpointStartsAndStops startableAndStoppable) { }
     }
     public class HostingSettings
