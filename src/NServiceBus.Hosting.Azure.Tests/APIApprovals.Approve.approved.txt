@@ -89,7 +89,7 @@ namespace NServiceBus
     }
     [System.ObsoleteAttribute("Use `UseTransportExtensions` instead. Will be removed in version 8.0.0.", true)]
     public interface UsingTransport<T>
-        where T : NServiceBus.Transports.TransportDefinition { }
+        where T : NServiceBus.Transport.TransportDefinition { }
 }
 namespace NServiceBus.Hosting.Azure
 {
