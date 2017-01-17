@@ -69,7 +69,7 @@ namespace NServiceBus.Hosting.Azure
             //todo -yves
         }
 
-        public void UpdatedEndpoints(object sender, EndpointsEventArgs e)
+        void UpdatedEndpoints(object sender, EndpointsEventArgs e)
         {
             runner.Stop(e.Endpoints);
             provisioner.Remove(e.Endpoints);
@@ -77,7 +77,7 @@ namespace NServiceBus.Hosting.Azure
             runner.Start(e.Endpoints);
         }
 
-        public void NewEndpoints(object sender, EndpointsEventArgs e)
+        void NewEndpoints(object sender, EndpointsEventArgs e)
         {
             provisioner.Provision(e.Endpoints);
             runner.Start(e.Endpoints);
@@ -85,7 +85,7 @@ namespace NServiceBus.Hosting.Azure
             runningServices.AddRange(e.Endpoints);
         }
 
-        public void RemovedEndpoints(object sender, EndpointsEventArgs e)
+        void RemovedEndpoints(object sender, EndpointsEventArgs e)
         {
             monitor.StopMonitoring(e.Endpoints);
             runner.Stop(e.Endpoints);
