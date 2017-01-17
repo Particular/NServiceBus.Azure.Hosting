@@ -41,12 +41,10 @@ namespace NServiceBus.Hosting.Azure
                 {
                     var entryFullname = Path.Combine(localDirectory, entry.FullName);
                     var entryPath = Path.GetDirectoryName(entryFullname);
-                    if (entryPath != null)
+                    if (!Directory.Exists(entryPath))
                     {
-                        if (!Directory.Exists(entryPath))
-                        {
-                            Directory.CreateDirectory(entryPath);
-                        }
+                        // ReSharper disable once AssignNullToNotNullAttribute
+                        Directory.CreateDirectory(entryPath);
                     }
 
                     var entryFileName = Path.GetFileName(entryFullname);
