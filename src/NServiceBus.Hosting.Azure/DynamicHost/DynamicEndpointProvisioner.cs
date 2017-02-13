@@ -9,7 +9,7 @@ namespace NServiceBus.Hosting.Azure
     {
         public string LocalResource { get; set; }
 
-        ILog logger = LogManager.GetLogger(typeof(DynamicEndpointRunner));
+        ILog logger = LogManager.GetLogger(typeof(DynamicEndpointProvisioner));
 
         public bool RecycleRoleOnError { get; set; }
 
