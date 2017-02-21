@@ -29,7 +29,7 @@
             settings.ConfigurationFile = endpointConfigurationFile;
             var domain = AppDomain.CreateDomain(endpointId, null, settings);
             var windowsHost = domain.CreateInstanceAndUnwrap<WindowsHost>(endpointConfigurationType);
-            
+
             windowsHost.Start();
 
             WaitHandle.WaitAny(new WaitHandle[]
@@ -75,13 +75,12 @@
                 ThrowExceptions = false
             };
 
-            var scannedAssemblies = assemblyScanner.GetScannableAssemblies().Assemblies;
-            
-            return scannedAssemblies
-                .SelectMany(assembly => assembly.GetTypes().Where(
+            var scanResult = assemblyScanner.GetScannableAssemblies();
+
+            return scanResult.Types.Where(
                 t => typeof(IConfigureThisEndpoint).IsAssignableFrom(t)
                      && t != typeof(IConfigureThisEndpoint)
-                     && !t.IsAbstract)).ToList();
+                     && !t.IsAbstract).ToList();
         }
 
         static void ValidateEndpoints(IList<Type> endpointConfigurationTypes)

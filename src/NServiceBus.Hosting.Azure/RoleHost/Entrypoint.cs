@@ -97,13 +97,12 @@ namespace NServiceBus
                 ThrowExceptions = false
             };
 
-            var scannedAssemblies = assemblyScanner.GetScannableAssemblies().Assemblies;
-            
-            return scannedAssemblies.SelectMany(
-                assembly => assembly.GetTypes().Where(
+            var scanResult = assemblyScanner.GetScannableAssemblies();
+
+            return scanResult.Types.Where(
                     t => typeof(IConfigureThisEndpoint).IsAssignableFrom(t)
                          && t != typeof(IConfigureThisEndpoint)
-                         && !t.IsAbstract));
+                         && !t.IsAbstract);
         }
 
         static void ValidateEndpoints(IList<Type> endpointConfigurationTypes)
