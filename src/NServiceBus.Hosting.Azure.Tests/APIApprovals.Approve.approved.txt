@@ -70,7 +70,6 @@ namespace NServiceBus
     {
         System.Collections.Generic.IEnumerable<System.Type> ActiveProfiles { get; set; }
     }
-    [JetBrains.Annotations.UsedImplicitlyAttribute(JetBrains.Annotations.ImplicitUseTargetFlags.Default | JetBrains.Annotations.ImplicitUseTargetFlags.Itself | JetBrains.Annotations.ImplicitUseTargetFlags.Members | JetBrains.Annotations.ImplicitUseTargetFlags.WithMembers)]
     public interface IWantToRunWhenEndpointStartsAndStops
     {
         System.Threading.Tasks.Task Start(NServiceBus.IMessageSession session);
