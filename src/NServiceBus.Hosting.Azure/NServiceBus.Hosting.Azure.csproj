@@ -24,11 +24,11 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\binaries\</OutputPath>
+    <OutputPath>..\..\binaries\</OutputPath>
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\binaries\NServiceBus.Hosting.Azure.xml</DocumentationFile>
+    <DocumentationFile>..\..\binaries\NServiceBus.Hosting.Azure.xml</DocumentationFile>
     <NoWarn>
     </NoWarn>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
@@ -37,11 +37,11 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\binaries\</OutputPath>
+    <OutputPath>..\..\binaries\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\binaries\NServiceBus.Hosting.Azure.xml</DocumentationFile>
+    <DocumentationFile>..\..\binaries\NServiceBus.Hosting.Azure.xml</DocumentationFile>
     <NoWarn>
     </NoWarn>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
