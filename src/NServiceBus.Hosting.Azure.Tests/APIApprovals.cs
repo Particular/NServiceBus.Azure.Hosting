@@ -4,9 +4,7 @@
     using System.IO;
     using System.Linq;
     using System.Runtime.CompilerServices;
-    using ApiApprover;
     using ApprovalTests;
-    using Mono.Cecil;
     using NUnit.Framework;
 
     [TestFixture]
@@ -17,14 +15,9 @@
         public void Approve()
         {
             Directory.SetCurrentDirectory(TestContext.CurrentContext.TestDirectory);
-            var location = typeof(GenericHost).Assembly.Location;
-            if (location != null)
-            {
-                var assemblyPath = Path.GetFullPath(location);
-                var asm = AssemblyDefinition.ReadAssembly(assemblyPath);
-                var publicApi = Filter(PublicApiGenerator.CreatePublicApiForAssembly(asm));
-                Approvals.Verify(publicApi);
-            }
+            var asm = typeof(GenericHost).Assembly;
+            var publicApi = Filter(PublicApiGenerator.ApiGenerator.GeneratePublicApi(asm));
+            Approvals.Verify(publicApi);
         }
 
         string Filter(string text)
