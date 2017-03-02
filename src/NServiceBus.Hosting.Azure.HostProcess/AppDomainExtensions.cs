@@ -8,7 +8,8 @@ namespace NServiceBus.Hosting.Azure.HostProcess
         public static T CreateInstanceAndUnwrap<T>(this AppDomain domain, params object[] args)
         {
             var type = typeof(T);
-            return (T)domain.CreateInstanceFromAndUnwrap(type.Assembly.Location, type.FullName, false, BindingFlags.Default, null, args, null, null);
+            var location = type.Assembly.Location;
+            return location != null ? (T)domain.CreateInstanceFromAndUnwrap(location, type.FullName, false, BindingFlags.Default, null, args, null, null) : default(T);
         }
     }
 }

@@ -22,22 +22,22 @@ namespace NServiceBus.Hosting.Azure
 
         public int Interval { get; set; }
 
-        public void OnUpdatedEndpoints(EndpointsEventArgs e)
+        void OnUpdatedEndpoints(EndpointsEventArgs e)
         {
             var handler = UpdatedEndpoints;
-            if (handler != null) handler(this, e);
+            handler?.Invoke(this, e);
         }
 
-        public void OnNewEndpoints(EndpointsEventArgs e)
+        void OnNewEndpoints(EndpointsEventArgs e)
         {
             var handler = NewEndpoints;
-            if (handler != null) handler(this, e);
+            handler?.Invoke(this, e);
         }
 
-        public void OnRemovedEndpoints(EndpointsEventArgs e)
+        void OnRemovedEndpoints(EndpointsEventArgs e)
         {
             var handler = RemovedEndpoints;
-            if (handler != null) handler(this, e);
+            handler?.Invoke(this, e);
         }
 
         public void Monitor(IEnumerable<EndpointToHost> hostedEndpoints)

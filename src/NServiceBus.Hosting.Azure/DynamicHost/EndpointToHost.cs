@@ -24,8 +24,7 @@ namespace NServiceBus.Hosting.Azure
         public int ProcessId { get; set; }
 
         public DateTime LastUpdated { get; set; }
-
-
+        
         public void ExtractTo(string rootPath)
         {
             var localDirectory = Path.Combine(rootPath, EndpointName);
@@ -36,7 +35,26 @@ namespace NServiceBus.Hosting.Azure
                 blob.DownloadToStream(fs);
             }
 
-            ZipFile.ExtractToDirectory(localFileName, localDirectory);
+            using (var archive = ZipFile.OpenRead(localFileName))
+            {
+                foreach (var entry in archive.Entries)
+                {
+                    var entryFullname = Path.Combine(localDirectory, entry.FullName);
+                    var entryPath = Path.GetDirectoryName(entryFullname);
+                    if (!Directory.Exists(entryPath))
+                    {
+                        // ReSharper disable once AssignNullToNotNullAttribute
+                        Directory.CreateDirectory(entryPath);
+                    }
+
+                    var entryFileName = Path.GetFileName(entryFullname);
+                    if (!string.IsNullOrEmpty(entryFileName))
+                    {
+                        entry.ExtractToFile(entryFullname, true);
+                    }
+                }
+            }
         }
+        
     }
 }
