@@ -63,7 +63,9 @@
         }
 
         FakeAzureConfigurationSettings azureSettings;
+#pragma warning disable 618
         IConfigurationSource configSource;
+#pragma warning restore 618
     }
 
     public class TestConfigSection : ConfigurationSection
