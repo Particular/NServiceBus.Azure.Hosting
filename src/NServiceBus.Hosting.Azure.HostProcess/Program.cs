@@ -78,7 +78,7 @@
             var scanResult = assemblyScanner.GetScannableAssemblies();
 
             return scanResult.Types.Where(
-                t => typeof(IConfigureThisEndpoint).IsAssignableFrom(t)
+                t => (typeof(IConfigureThisEndpoint).IsAssignableFrom(t) || typeof(IConfigureThisHost).IsAssignableFrom(t))
                      && t != typeof(IConfigureThisEndpoint)
                      && !t.IsAbstract).ToList();
         }
