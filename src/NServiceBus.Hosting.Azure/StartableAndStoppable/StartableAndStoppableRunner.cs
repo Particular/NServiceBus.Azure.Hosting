@@ -36,8 +36,10 @@
                 {
                     thingsRanAtStartup.Add(startable1);
                     Log.DebugFormat("Started {0}.", startableName);
-                }, TaskContinuationOptions.OnlyOnRanToCompletion | TaskContinuationOptions.ExecuteSynchronously);
-                task.ContinueWith(t => { Log.Error($"Startup task {startableName} failed to complete.", t.Exception); }, TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously);
+                }, TaskContinuationOptions.OnlyOnRanToCompletion | TaskContinuationOptions.ExecuteSynchronously)
+                    .Ignore();
+                task.ContinueWith(t => { Log.Error($"Startup task {startableName} failed to complete.", t.Exception); }, TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously)
+                    .Ignore();
 
                 startableTasks.Add(task);
             }
@@ -115,7 +117,8 @@
                     {
                         Log.Warn(message);
                     }
-                });
+                })
+                .Ignore();
         }
 
         IEnumerable<IWantToRunWhenEndpointStartsAndStops> wantToRunWhenBusStartsAndStops;
