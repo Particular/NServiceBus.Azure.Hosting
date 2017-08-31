@@ -32,13 +32,11 @@ namespace NServiceBus.Hosting.Azure
 
                 if (RecycleRoleOnError) SafeRoleEnvironment.RequestRecycle();
             }
-            
         }
 
         public void Remove(IEnumerable<EndpointToHost> endpoints)
         {
-            string localResource;
-            if (!SafeRoleEnvironment.TryGetRootPath(LocalResource, out localResource)) return;
+            if (!SafeRoleEnvironment.TryGetRootPath(LocalResource, out var localResource)) return;
 
             foreach (var endpoint in endpoints)
             {
