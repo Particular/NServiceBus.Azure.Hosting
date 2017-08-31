@@ -4,17 +4,10 @@
 [assembly: System.Runtime.Versioning.TargetFrameworkAttribute(".NETFramework,Version=v4.5.2", FrameworkDisplayName=".NET Framework 4.5.2")]
 namespace NServiceBus
 {
-    [System.ObsoleteAttribute("Use `IConfigureThisHost` instead. Will be removed in version 8.0.0.", true)]
-    public interface AsA_Host { }
     public interface AsA_Worker { }
     public class static ConfigureAzureIntegration
     {
         public static void AzureConfigurationSource(this NServiceBus.EndpointConfiguration config, string configurationPrefix = null) { }
-    }
-    [System.ObsoleteAttribute("Use `IConfigureThisEndpoint` instead. Will be removed in version 8.0.0.", true)]
-    public class Development : NServiceBus.IProfile
-    {
-        public Development() { }
     }
     public class static EndpointConfigurationExtensions
     {
@@ -35,16 +28,6 @@ namespace NServiceBus
         public int TimeToWaitUntilProcessIsKilled { get; set; }
         public int UpdateInterval { get; set; }
     }
-    [System.ObsoleteAttribute("Configure Azure Diagnostics through Visual Studio or .wadcfgx instead. Will be re" +
-        "moved in version 8.0.0.", true)]
-    public interface IConfigureLogging
-    {
-        void Configure(NServiceBus.IConfigureThisEndpoint specifier);
-    }
-    [System.ObsoleteAttribute("Configure Azure Diagnostics through Visual Studio or .wadcfgx instead. Will be re" +
-        "moved in version 8.0.0.", true)]
-    public interface IConfigureLoggingForProfile<T> : NServiceBus.IConfigureLogging
-        where T : NServiceBus.IProfile { }
     public interface IConfigureThisEndpoint
     {
         void Customize(NServiceBus.EndpointConfiguration configuration);
@@ -52,23 +35,6 @@ namespace NServiceBus
     public interface IConfigureThisHost
     {
         NServiceBus.HostingSettings Configure();
-    }
-    [System.ObsoleteAttribute("Use `IConfigureThisEndpoint` instead. Will be removed in version 8.0.0.", true)]
-    public interface IHandleAnyProfile : NServiceBus.IHandleProfile, NServiceBus.IHandleProfile<NServiceBus.IProfile>, NServiceBus.IWantTheListOfActiveProfiles { }
-    [System.ObsoleteAttribute("Use `IConfigureThisEndpoint` instead. Will be removed in version 8.0.0.", true)]
-    public interface IHandleProfile
-    {
-        void ProfileActivated(NServiceBus.EndpointConfiguration config);
-    }
-    [System.ObsoleteAttribute("Use `IConfigureThisEndpoint` instead. Will be removed in version 8.0.0.", true)]
-    public interface IHandleProfile<T> : NServiceBus.IHandleProfile
-        where T : NServiceBus.IProfile { }
-    [System.ObsoleteAttribute("Use `IConfigureThisEndpoint` instead. Will be removed in version 8.0.0.", true)]
-    public interface IProfile { }
-    [System.ObsoleteAttribute("Use `IConfigureThisEndpoint` instead. Will be removed in version 8.0.0.", true)]
-    public interface IWantTheListOfActiveProfiles
-    {
-        System.Collections.Generic.IEnumerable<System.Type> ActiveProfiles { get; set; }
     }
     public interface IWantToRunWhenEndpointStartsAndStops
     {
@@ -80,44 +46,5 @@ namespace NServiceBus
         public NServiceBusRoleEntrypoint() { }
         public void Start() { }
         public void Stop() { }
-    }
-    [System.ObsoleteAttribute("Use `IConfigureThisEndpoint` instead. Will be removed in version 8.0.0.", true)]
-    public class Production : NServiceBus.IProfile
-    {
-        public Production() { }
-    }
-    [System.ObsoleteAttribute("Use `UseTransportExtensions` instead. Will be removed in version 8.0.0.", true)]
-    public interface UsingTransport<T>
-        where T : NServiceBus.Transport.TransportDefinition { }
-}
-namespace NServiceBus.Hosting.Azure
-{
-    [System.ObsoleteAttribute("The profiles configured via AzureProfileConfig are no longer supported. Will be r" +
-        "emoved in version 8.0.0.", true)]
-    public class AzureProfileConfig : System.Configuration.ConfigurationSection
-    {
-        public AzureProfileConfig() { }
-        [System.Configuration.ConfigurationPropertyAttribute("Profiles", IsRequired=false)]
-        public string Profiles { get; set; }
-    }
-    [System.ObsoleteAttribute("The profiles configured via DynamicHostControllerConfig are no longer supported. " +
-        "Use `HostingSettings` instead. Will be removed in version 8.0.0.", true)]
-    public class DynamicHostControllerConfig : System.Configuration.ConfigurationSection
-    {
-        public DynamicHostControllerConfig() { }
-        [System.Configuration.ConfigurationPropertyAttribute("AutoUpdate", DefaultValue=false, IsRequired=false)]
-        public bool AutoUpdate { get; set; }
-        [System.Configuration.ConfigurationPropertyAttribute("ConnectionString", DefaultValue="UseDevelopmentStorage=true", IsRequired=false)]
-        public string ConnectionString { get; set; }
-        [System.Configuration.ConfigurationPropertyAttribute("Container", DefaultValue="endpoints", IsRequired=false)]
-        public string Container { get; set; }
-        [System.Configuration.ConfigurationPropertyAttribute("LocalResource", DefaultValue="endpoints", IsRequired=false)]
-        public string LocalResource { get; set; }
-        [System.Configuration.ConfigurationPropertyAttribute("RecycleRoleOnError", DefaultValue=false, IsRequired=false)]
-        public bool RecycleRoleOnError { get; set; }
-        [System.Configuration.ConfigurationPropertyAttribute("TimeToWaitUntilProcessIsKilled", DefaultValue=10000, IsRequired=false)]
-        public int TimeToWaitUntilProcessIsKilled { get; set; }
-        [System.Configuration.ConfigurationPropertyAttribute("UpdateInterval", DefaultValue=600000, IsRequired=false)]
-        public int UpdateInterval { get; set; }
     }
 }
