@@ -72,8 +72,7 @@ namespace NServiceBus
 
         static Type GetEndpointConfigurationType(AzureConfigurationSettings settings)
         {
-            string endpoint;
-            if (settings.TryGetSetting(EndpointConfigurationType, out endpoint))
+            if (settings.TryGetSetting(EndpointConfigurationType, out var endpoint))
             {
                 var endpointType = Type.GetType(endpoint, false);
                 if (endpointType == null)

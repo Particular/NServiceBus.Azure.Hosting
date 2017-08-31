@@ -13,7 +13,7 @@ namespace NServiceBus.Hosting.Azure
         /// <returns>SemVer compliant version.</returns>
         public static string GetFileVersion(Type type)
         {
-            if (!String.IsNullOrEmpty(type.Assembly.Location))
+            if (!string.IsNullOrEmpty(type.Assembly.Location))
             {
                 var fileVersion = FileVersionInfo.GetVersionInfo(type.Assembly.Location);
 
@@ -25,8 +25,7 @@ namespace NServiceBus.Hosting.Azure
             if (customAttributes.Length >= 1)
             {
                 var fileVersion = (AssemblyFileVersionAttribute)customAttributes[0];
-                Version version;
-                if (Version.TryParse(fileVersion.Version, out version))
+                if (Version.TryParse(fileVersion.Version, out var version))
                 {
                     return version.ToString(3);
                 }

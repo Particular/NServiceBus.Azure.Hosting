@@ -48,8 +48,7 @@ namespace NServiceBus.Hosting.Azure
 
                     process.Exited += (o, args) =>
                     {
-                        bool trash;
-                        processWasKilledOnPurpose = StoppedProcessIds.TryRemove(process.Id, out trash);
+                        processWasKilledOnPurpose = StoppedProcessIds.TryRemove(process.Id, out _);
                         if (process.ExitCode != 0 && !processWasKilledOnPurpose)
                         {
                             if (RecycleRoleOnError) SafeRoleEnvironment.RequestRecycle();

@@ -15,9 +15,7 @@ namespace NServiceBus
         {
             var settings = configuration.GetSettings();
 
-            List<IWantToRunWhenEndpointStartsAndStops> instanceList;
-
-            if (!settings.TryGet(out instanceList))
+            if (!settings.TryGet(out List<IWantToRunWhenEndpointStartsAndStops> instanceList))
             {
                 instanceList = new List<IWantToRunWhenEndpointStartsAndStops>();
                 settings.Set<List<IWantToRunWhenEndpointStartsAndStops>>(instanceList);

@@ -29,23 +29,21 @@ namespace NServiceBus.Hosting.Azure
             var sectionName = typeof(T).Name;
             if (cache && ConfigurationCache.ContainsKey(sectionName))
             {
-                return (T) ConfigurationCache[sectionName];
+                return (T)ConfigurationCache[sectionName];
             }
 
             var section = GetConfigurationHandler()
-                              .GetSection(sectionName) as T;
+                .GetSection(sectionName) as T;
 
             foreach (var property in typeof(T).GetProperties().Where(x => x.DeclaringType == typeof(T)))
             {
                 var adjustedPrefix = !string.IsNullOrEmpty(ConfigurationPrefix) ? ConfigurationPrefix + "." : string.Empty;
 
-                string setting;
-
-                if (!azureConfigurationSettings.TryGetSetting(adjustedPrefix + sectionName + "." + property.Name,out setting))
+                if (!azureConfigurationSettings.TryGetSetting($"{adjustedPrefix}{sectionName}.{property.Name}", out var setting))
                 {
                     continue;
                 }
-                if( section == null) section = new T();
+                if (section == null) section = new T();
 
                 property.SetValue(section, Convert.ChangeType(setting, property.PropertyType), null);
             }

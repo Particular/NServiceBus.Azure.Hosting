@@ -9,7 +9,7 @@ namespace NServiceBus.Hosting.Azure.HostProcess
         {
             var type = typeof(T);
             var location = type.Assembly.Location;
-            return location != null ? (T)domain.CreateInstanceFromAndUnwrap(location, type.FullName, false, BindingFlags.Default, null, args, null, null) : default(T);
+            return (T)domain.CreateInstanceFromAndUnwrap(location, type.FullName, false, BindingFlags.Default, null, args, null, null);
         }
     }
 }

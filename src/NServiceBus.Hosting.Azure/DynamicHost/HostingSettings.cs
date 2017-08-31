@@ -25,7 +25,7 @@ namespace NServiceBus
         /// <summary>
         /// Azure storage account information.
         /// </summary>
-        public CloudStorageAccount StorageAccount { get; private set; }
+        public CloudStorageAccount StorageAccount { get; }
 
         /// <summary>
         /// Azure blob storage container name.
