@@ -16,6 +16,9 @@ namespace NServiceBus
     {
         public static void DefineEndpointName(this NServiceBus.EndpointConfiguration configuration, string endpointName) { }
     }
+    [System.ObsoleteAttribute("The azure cloud services host will be deprecated in the next major version. See u" +
+        "pgrade guide and documentation for alternatives. Will be treated as an error fro" +
+        "m version 9.0.0. Will be removed in version 10.0.0.", false)]
     public class static EndpointStartableAndStoppableExtensions
     {
         public static void RunWhenEndpointStartsAndStops(this NServiceBus.EndpointConfiguration configuration, NServiceBus.IWantToRunWhenEndpointStartsAndStops startableAndStoppable) { }
@@ -45,6 +48,9 @@ namespace NServiceBus
     {
         NServiceBus.HostingSettings Configure();
     }
+    [System.ObsoleteAttribute("The azure cloud services host will be deprecated in the next major version. See u" +
+        "pgrade guide and documentation for alternatives. Will be treated as an error fro" +
+        "m version 9.0.0. Will be removed in version 10.0.0.", false)]
     public interface IWantToRunWhenEndpointStartsAndStops
     {
         System.Threading.Tasks.Task Start(NServiceBus.IMessageSession session);
