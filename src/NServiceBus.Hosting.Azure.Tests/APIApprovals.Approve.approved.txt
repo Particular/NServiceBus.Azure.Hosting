@@ -4,6 +4,9 @@
 [assembly: System.Runtime.Versioning.TargetFrameworkAttribute(".NETFramework,Version=v4.5.2", FrameworkDisplayName=".NET Framework 4.5.2")]
 namespace NServiceBus
 {
+    [System.ObsoleteAttribute("The AsA_Worker role is obsoleted. Manually configure the EndpointConfiguration ob" +
+        "ject via IConfigureThisEndpoint.Customize(EndpointConfiguration endpointConfigur" +
+        "ation). Will be removed in version 9.0.0.", true)]
     public interface AsA_Worker { }
     public class static ConfigureAzureIntegration
     {
@@ -28,10 +31,16 @@ namespace NServiceBus
         public int TimeToWaitUntilProcessIsKilled { get; set; }
         public int UpdateInterval { get; set; }
     }
+    [System.ObsoleteAttribute("The azure cloud services host will be deprecated in the next major version. See u" +
+        "pgrade guide and documentation for alternatives. Will be treated as an error fro" +
+        "m version 9.0.0. Will be removed in version 10.0.0.", false)]
     public interface IConfigureThisEndpoint
     {
         void Customize(NServiceBus.EndpointConfiguration configuration);
     }
+    [System.ObsoleteAttribute("The azure cloud services host will be deprecated in the next major version. See u" +
+        "pgrade guide and documentation for alternatives. Will be treated as an error fro" +
+        "m version 9.0.0. Will be removed in version 10.0.0.", false)]
     public interface IConfigureThisHost
     {
         NServiceBus.HostingSettings Configure();
@@ -41,6 +50,9 @@ namespace NServiceBus
         System.Threading.Tasks.Task Start(NServiceBus.IMessageSession session);
         System.Threading.Tasks.Task Stop(NServiceBus.IMessageSession session);
     }
+    [System.ObsoleteAttribute("The azure cloud services host will be deprecated in the next major version. See u" +
+        "pgrade guide and documentation for alternatives. Will be treated as an error fro" +
+        "m version 9.0.0. Will be removed in version 10.0.0.", false)]
     public class NServiceBusRoleEntrypoint
     {
         public NServiceBusRoleEntrypoint() { }
