@@ -9,8 +9,6 @@
 
     class Program
     {
-        static ManualResetEvent Wait = new ManualResetEvent(false);
-
         static void Main(string[] args)
         {
             var endpointConfigurationType = GetEndpointConfigurationType();
@@ -65,7 +63,7 @@
 
             ValidateEndpoints(endpoints);
 
-            return endpoints.First();
+            return endpoints[0];
         }
 
         static IList<Type> ScanAssembliesForEndpoints()
@@ -85,26 +83,23 @@
 
         static void ValidateEndpoints(IList<Type> endpointConfigurationTypes)
         {
-            if (!endpointConfigurationTypes.Any())
+            if (endpointConfigurationTypes.Count == 0)
             {
-                throw new InvalidOperationException("No endpoint configuration found in scanned assemblies. " +
-                                                    "This usually happens when NServiceBus fails to load your assembly containing IConfigureThisEndpoint." +
-                                                    " Try specifying the type explicitly in the NServiceBus.Host.exe.config using the appsetting key: EndpointConfigurationType, " +
-                                                    "Scanned path: " + AppDomain.CurrentDomain.BaseDirectory);
+                throw new InvalidOperationException($"No endpoint configuration found in scanned assemblies. This usually happens when NServiceBus fails to load your assembly containing IConfigureThisEndpoint. Try specifying the type explicitly in the NServiceBus.Host.exe.config using the appsetting key: EndpointConfigurationType, Scanned path: {AppDomain.CurrentDomain.BaseDirectory}");
             }
 
-            if (endpointConfigurationTypes.Count() > 1)
+            if (endpointConfigurationTypes.Count > 1)
             {
-                throw new InvalidOperationException("Host doesn't support hosting of multiple endpoints. " +
-                                                    "Endpoint classes found: " +
-                                                    string.Join(", ",
-                                                                endpointConfigurationTypes.Select(
-                                                                    e => e.AssemblyQualifiedName).ToArray()) +
-                                                    " You may have some old assemblies in your runtime directory." +
-                                                    " Try right-clicking your VS project, and selecting 'Clean'."
-                    );
+                throw new InvalidOperationException($"Host doesn\'t support hosting of multiple endpoints. Endpoint classes found: {string.Join(", ", endpointConfigurationTypes.Select(e => e.AssemblyQualifiedName).ToArray())} You may have some old assemblies in your runtime directory. Try right-clicking your VS project, and selecting \'Clean\'.");
+            }
 
+            var endpointConfigurationType = endpointConfigurationTypes[0];
+            if (typeof(IConfigureThisEndpoint).IsAssignableFrom(endpointConfigurationType) && typeof(IConfigureThisHost).IsAssignableFrom(endpointConfigurationType))
+            {
+                throw new InvalidOperationException($"The endpoint configuration found implements both \'{typeof(IConfigureThisEndpoint).Name}\' and \'{typeof(IConfigureThisHost).Name}\' which is not supported. Mark the endpoint as a host by implementing \'{typeof(IConfigureThisEndpoint).FullName}\' or as a dynamic host by implementing \'{typeof(IConfigureThisHost).FullName}\'.");
             }
         }
+
+        static ManualResetEvent Wait = new ManualResetEvent(false);
     }
 }
