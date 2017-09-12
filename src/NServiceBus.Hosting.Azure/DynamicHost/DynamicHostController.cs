@@ -11,14 +11,6 @@ namespace NServiceBus.Hosting.Azure
 
         public void Start()
         {
-            var endpointConfiguration = new EndpointConfiguration("DynamicHostController");
-            endpointConfiguration.AzureConfigurationSource();
-
-            endpointConfiguration.UsePersistence<InMemoryPersistence>();
-
-            endpointConfiguration.SendOnly();
-            endpoint = Endpoint.Start(endpointConfiguration).GetAwaiter().GetResult();
-
             loader = new DynamicEndpointLoader(settings.StorageAccount,settings.Container);
 
             provisioner = new DynamicEndpointProvisioner
@@ -59,7 +51,6 @@ namespace NServiceBus.Hosting.Azure
 
         public void Stop()
         {
-            endpoint?.Stop();
             monitor?.Stop();
             runner?.Stop(runningServices);
         }
@@ -94,7 +85,6 @@ namespace NServiceBus.Hosting.Azure
                 runningServices.Remove(endpoint);
         }
 
-        IEndpointInstance endpoint;
         DynamicEndpointLoader loader;
         DynamicHostMonitor monitor;
         DynamicEndpointProvisioner provisioner;
