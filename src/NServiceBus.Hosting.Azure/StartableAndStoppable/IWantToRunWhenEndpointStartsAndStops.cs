@@ -8,6 +8,8 @@
     /// Dependency injection is provided for these types.
     /// </summary>
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+    [ObsoleteEx(Message = "The azure cloud services host will be deprecated in the next major version. See upgrade guide and documentation for alternatives.",
+        RemoveInVersion = "10.0")]
     public interface IWantToRunWhenEndpointStartsAndStops
     {
         /// <summary>

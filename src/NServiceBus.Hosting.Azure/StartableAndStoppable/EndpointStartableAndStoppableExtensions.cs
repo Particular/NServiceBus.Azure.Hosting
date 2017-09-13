@@ -6,6 +6,8 @@ namespace NServiceBus
     /// <summary>
     /// Extension methods for EndpointConfiguration.
     /// </summary>
+    [ObsoleteEx(Message = "The azure cloud services host will be deprecated in the next major version. See upgrade guide and documentation for alternatives.",
+        RemoveInVersion = "10.0")]
     public static class EndpointStartableAndStoppableExtensions
     {
         /// <summary>

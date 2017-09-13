@@ -11,6 +11,9 @@ namespace NServiceBus
     /// <summary>
     /// Adapts endpoint host to interface that is easily integrated with Azure role entry point class.
     /// </summary>
+    [ObsoleteEx(Message = "The azure cloud services host will be deprecated in the next major version. See upgrade guide and documentation for alternatives.",
+        RemoveInVersion = "10.0")]
+#pragma warning disable 1591
     public class NServiceBusRoleEntrypoint
     {
         /// <summary>
@@ -131,4 +134,5 @@ namespace NServiceBus
         IHost host;
         const string EndpointConfigurationType = "EndpointConfigurationType";
     }
+#pragma warning restore 1591
 }
