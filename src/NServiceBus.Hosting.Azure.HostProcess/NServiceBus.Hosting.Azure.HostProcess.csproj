@@ -3,7 +3,6 @@
   <PropertyGroup>
     <TargetFramework>net452</TargetFramework>
     <AssemblyName>NServiceBus.Hosting.Azure.HostProcess</AssemblyName>
-    <NuSpecFileName>nservicebus.hosting.azure.hostprocess</NuSpecFileName>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>$(SolutionDir)NServiceBus.snk</AssemblyOriginatorKeyFile>
@@ -17,12 +16,15 @@
     <UpdateAssemblyInfo>true</UpdateAssemblyInfo>
     <NoWarn>1591, 0618</NoWarn>
   </PropertyGroup>
+
+  <PropertyGroup>
+      <Description>The process used when sharing an azure instance between multiple NServicebus endpoints</Description>
+  </PropertyGroup>
+
   <ItemGroup>
-	<None Include="..\..\packaging\nuget\nservicebus.hosting.azure.hostprocess.nuspec" Link="nservicebus.hosting.azure.hostprocess" />
-    <PackageReference Include="NServiceBus" Version="6.0.0" />
-    <PackageReference Include="Particular.CodeRules" Version="0.2.0" />
-    <PackageReference Include="NuGetPackager" Version="0.6.3" />
-    <PackageReference Include="GitVersionTask" Version="4.0.0-beta0012" />
+    <PackageReference Include="NServiceBus" Version="7.0.0-*" />
+    <PackageReference Include="Particular.CodeRules" Version="*" PrivateAssets="All"/>
+    <PackageReference Include="Particular.Packaging" Version="*" PrivateAssets="All" />
 
     <PackageReference Include="Microsoft.Azure.KeyVault.Core" Version="2.0.4" />
     <PackageReference Include="Microsoft.Data.Edm" Version="5.8.2" />
@@ -36,7 +38,6 @@
     <PackageReference Include="System.Spatial" Version="5.8.2" />
     <PackageReference Include="WindowsAzure.Storage" Version="8.0.0" />
     <ProjectReference Include="..\NServiceBus.Hosting.Azure\NServiceBus.Hosting.Azure.csproj" />
-
     <Reference Include="System.Configuration" />
     <Reference Include="System.Transactions" />
   </ItemGroup>

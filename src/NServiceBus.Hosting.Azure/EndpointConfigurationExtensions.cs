@@ -1,9 +1,9 @@
 ﻿namespace NServiceBus
 {
-    using Configuration.AdvanceExtensibility;
+    using Configuration.AdvancedExtensibility;
 
     /// <summary>
-    /// Extentions for <see cref="EndpointConfiguration"/>.
+    /// Extensions for <see cref="EndpointConfiguration"/>.
     /// </summary>
     public static class EndpointConfigurationExtensions
     {
