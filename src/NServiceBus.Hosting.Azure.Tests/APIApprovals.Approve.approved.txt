@@ -10,6 +10,8 @@ namespace NServiceBus
     public interface AsA_Worker { }
     public class static ConfigureAzureIntegration
     {
+        [System.ObsoleteAttribute("Use code-based configuration instead. The member currently throws a NotImplemente" +
+            "dException. Will be removed in version 9.0.0.", true)]
         public static void AzureConfigurationSource(this NServiceBus.EndpointConfiguration config, string configurationPrefix = null) { }
     }
     public class static EndpointConfigurationExtensions
