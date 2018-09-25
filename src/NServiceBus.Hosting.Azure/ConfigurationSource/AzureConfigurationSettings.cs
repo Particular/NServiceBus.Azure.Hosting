@@ -4,7 +4,10 @@ namespace NServiceBus.Hosting.Azure
     {
         public string GetSetting(string name)
         {
-            if (!SafeRoleEnvironment.IsAvailable) return string.Empty;
+            if (!SafeRoleEnvironment.IsAvailable)
+            {
+                return string.Empty;
+            }
 
             return SafeRoleEnvironment.GetConfigurationSettingValue(name);
         }
@@ -13,7 +16,10 @@ namespace NServiceBus.Hosting.Azure
         {
             setting = null;
 
-            if (!SafeRoleEnvironment.IsAvailable) return false;
+            if (!SafeRoleEnvironment.IsAvailable)
+            {
+                return false;
+            }
 
             return SafeRoleEnvironment.TryGetConfigurationSettingValue(name, out setting);
         }

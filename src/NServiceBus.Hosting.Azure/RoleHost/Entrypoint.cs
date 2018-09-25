@@ -31,8 +31,7 @@ namespace NServiceBus
 
             var specifier = Activator.CreateInstance(endpointConfigurationType);
 
-            var controller = specifier as IConfigureThisHost;
-            if (controller != null)
+            if (specifier is IConfigureThisHost controller)
             {
                 var controllerSettings = controller.Configure();
                 host = new DynamicHostController(controllerSettings);
@@ -69,8 +68,10 @@ namespace NServiceBus
             var constructor = type.GetConstructor(Type.EmptyTypes);
 
             if (constructor == null)
+            {
                 throw new InvalidOperationException(
                     "Endpoint configuration type needs to have a default constructor: " + type.FullName);
+            }
         }
 
         static Type GetEndpointConfigurationType(AzureConfigurationSettings settings)
@@ -79,8 +80,10 @@ namespace NServiceBus
             {
                 var endpointType = Type.GetType(endpoint, false);
                 if (endpointType == null)
+                {
                     throw new ConfigurationErrorsException(
                         $"The 'EndpointConfigurationType' entry in the role config has specified to use the type '{endpoint}' but that type could not be loaded.");
+                }
 
                 return endpointType;
             }
