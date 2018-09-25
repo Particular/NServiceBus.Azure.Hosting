@@ -98,17 +98,26 @@ namespace NServiceBus.Hosting.Azure
                 {
                     var endpointNotFound =
                         loadedEndpoints.SingleOrDefault(l => l.EndpointName == endpoint.EndpointName) == null;
-                    if (endpointNotFound) removedEndpoints.Add(endpoint);
+                    if (endpointNotFound)
+                    {
+                        removedEndpoints.Add(endpoint);
+                    }
                 }
 
                 if (updatedEndpoints.Count > 0)
+                {
                     OnUpdatedEndpoints(new EndpointsEventArgs {Endpoints = updatedEndpoints});
+                }
 
                 if (newEndpoints.Count > 0)
+                {
                     OnNewEndpoints(new EndpointsEventArgs {Endpoints = newEndpoints});
+                }
 
                 if (removedEndpoints.Count > 0)
+                {
                     OnRemovedEndpoints(new EndpointsEventArgs {Endpoints = removedEndpoints});
+                }
             }
             catch(StorageException ex) //prevent azure storage hickups from hurting us
             {

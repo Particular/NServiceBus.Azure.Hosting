@@ -41,7 +41,9 @@
             var constructor = type.GetConstructor(Type.EmptyTypes);
 
             if (constructor == null)
+            {
                 throw new InvalidOperationException("Endpoint configuration type needs to have a default constructor: " + type.FullName);
+            }
         }
 
         static string GetEndpointConfigurationFile(Type endpointConfigurationType)
