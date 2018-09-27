@@ -27,7 +27,10 @@ namespace NServiceBus.Hosting.Azure
 
             var endpointsToHost = loader.LoadEndpoints();
 
-            if (endpointsToHost == null) return;
+            if (endpointsToHost == null)
+            {
+                return;
+            }
 
             runningServices = new List<EndpointToHost>(endpointsToHost);
 
@@ -35,7 +38,10 @@ namespace NServiceBus.Hosting.Azure
 
             runner.Start(runningServices);
 
-            if (!settings.AutoUpdate) return;
+            if (!settings.AutoUpdate)
+            {
+                return;
+            }
 
             monitor = new DynamicHostMonitor
             {
@@ -82,7 +88,9 @@ namespace NServiceBus.Hosting.Azure
             runner.Stop(e.Endpoints);
             provisioner.Remove(e.Endpoints);
             foreach (var endpoint in e.Endpoints)
+            {
                 runningServices.Remove(endpoint);
+            }
         }
 
         DynamicEndpointLoader loader;

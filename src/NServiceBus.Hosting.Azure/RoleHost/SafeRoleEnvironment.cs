@@ -37,7 +37,10 @@ namespace NServiceBus.Hosting.Azure
         public static string CurrentRoleInstanceId {
             get
             {
-                if (!IsAvailable) throw new Exception("Role environment is not available, please check IsAvailable before calling this property!");
+                if (!IsAvailable)
+                {
+                    throw new Exception("Role environment is not available, please check IsAvailable before calling this property!");
+                }
 
                 var instance = roleEnvironmentType.GetProperty("CurrentRoleInstance").GetValue(null, null);
                 return (string) roleInstanceType.GetProperty("Id").GetValue(instance, null);
@@ -48,7 +51,10 @@ namespace NServiceBus.Hosting.Azure
         {
             get
             {
-                if (!IsAvailable) throw new Exception("Role environment is not available, please check IsAvailable before calling this property!");
+                if (!IsAvailable)
+                {
+                    throw new Exception("Role environment is not available, please check IsAvailable before calling this property!");
+                }
 
                 return (string) roleEnvironmentType.GetProperty("DeploymentId").GetValue(null, null);
             }
@@ -57,7 +63,10 @@ namespace NServiceBus.Hosting.Azure
         {
             get
             {
-                if (!IsAvailable) throw new Exception("Role environment is not available, please check IsAvailable before calling this property!");
+                if (!IsAvailable)
+                {
+                    throw new Exception("Role environment is not available, please check IsAvailable before calling this property!");
+                }
 
                 var instance = roleEnvironmentType.GetProperty("CurrentRoleInstance").GetValue(null, null);
                 var role = roleInstanceType.GetProperty("Role").GetValue(instance, null);
@@ -67,14 +76,20 @@ namespace NServiceBus.Hosting.Azure
 
         public static string GetConfigurationSettingValue(string name)
         {
-            if (!IsAvailable) throw new Exception("Role environment is not available, please check IsAvailable before calling this method!");
+            if (!IsAvailable)
+            {
+                throw new Exception("Role environment is not available, please check IsAvailable before calling this method!");
+            }
 
             return (string) roleEnvironmentType.GetMethod("GetConfigurationSettingValue").Invoke(null, new object[] { name });
         }
 
         public static bool TryGetConfigurationSettingValue(string name, out string setting)
         {
-            if (!IsAvailable) throw new Exception("Role environment is not available, please check IsAvailable before calling this method!");
+            if (!IsAvailable)
+            {
+                throw new Exception("Role environment is not available, please check IsAvailable before calling this method!");
+            }
 
             setting = string.Empty;
             bool result;
@@ -93,14 +108,20 @@ namespace NServiceBus.Hosting.Azure
 
         public static void RequestRecycle()
         {
-            if (!IsAvailable) throw new Exception("Role environment is not available, please check IsAvailable before calling this method!");
+            if (!IsAvailable)
+            {
+                throw new Exception("Role environment is not available, please check IsAvailable before calling this method!");
+            }
 
             roleEnvironmentType.GetMethod("RequestRecycle").Invoke(null, null);
         }
 
         public static string GetRootPath(string name)
         {
-            if (!IsAvailable) throw new Exception("Role environment is not available, please check IsAvailable before calling this method!");
+            if (!IsAvailable)
+            {
+                throw new Exception("Role environment is not available, please check IsAvailable before calling this method!");
+            }
 
             var o = roleEnvironmentType.GetMethod("GetLocalResource").Invoke(null, new object[] { name });
             return (string)localResourceType.GetProperty("RootPath").GetValue(o, null);
@@ -108,7 +129,10 @@ namespace NServiceBus.Hosting.Azure
 
         public static bool TryGetRootPath(string name, out string path)
         {
-            if (!IsAvailable) throw new Exception("Role environment is not available, please check IsAvailable before calling this method!");
+            if (!IsAvailable)
+            {
+                throw new Exception("Role environment is not available, please check IsAvailable before calling this method!");
+            }
 
             bool result;
             path = string.Empty;
@@ -129,11 +153,17 @@ namespace NServiceBus.Hosting.Azure
         static void TryLoadRoleEnvironment()
         {
             var serviceRuntimeAssembly = TryLoadServiceRuntimeAssembly();
-            if (!isAvailable) return;
+            if (!isAvailable)
+            {
+                return;
+            }
 
             TryGetRoleEnvironmentTypes(serviceRuntimeAssembly);
-            if (!isAvailable) return;
-            
+            if (!isAvailable)
+            {
+                return;
+            }
+
             isAvailable = IsAvailableInternal();
 
         }

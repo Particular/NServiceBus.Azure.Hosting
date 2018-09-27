@@ -40,7 +40,10 @@ namespace NServiceBus.Hosting.Azure
                         logger.Error(args.Data);
                         if (process.ExitCode != 0 && !processWasKilledOnPurpose)
                         {
-                            if (RecycleRoleOnError) SafeRoleEnvironment.RequestRecycle();
+                            if (RecycleRoleOnError)
+                            {
+                                SafeRoleEnvironment.RequestRecycle();
+                            }
                         }
                     };
 
@@ -51,7 +54,10 @@ namespace NServiceBus.Hosting.Azure
                         processWasKilledOnPurpose = StoppedProcessIds.TryRemove(process.Id, out _);
                         if (process.ExitCode != 0 && !processWasKilledOnPurpose)
                         {
-                            if (RecycleRoleOnError) SafeRoleEnvironment.RequestRecycle();
+                            if (RecycleRoleOnError)
+                            {
+                                SafeRoleEnvironment.RequestRecycle();
+                            }
                         }
                     };
 
@@ -66,7 +72,10 @@ namespace NServiceBus.Hosting.Azure
                 {
                     logger.Error(e.Message);
 
-                    if (RecycleRoleOnError) SafeRoleEnvironment.RequestRecycle();
+                    if (RecycleRoleOnError)
+                    {
+                        SafeRoleEnvironment.RequestRecycle();
+                    }
                 }
             }
         }
@@ -75,7 +84,10 @@ namespace NServiceBus.Hosting.Azure
         {
             foreach (var runningService in runningServices)
             {
-                if (runningService.ProcessId == 0) continue;
+                if (runningService.ProcessId == 0)
+                {
+                    continue;
+                }
 
                 KillProcess(runningService.ProcessId, TimeToWaitUntilProcessIsKilled);
 
