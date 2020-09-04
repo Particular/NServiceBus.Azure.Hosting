@@ -1,70 +1,91 @@
 ﻿[assembly: System.Runtime.CompilerServices.InternalsVisibleToAttribute(@"NServiceBus.Hosting.Azure.HostProcess, PublicKey=0024000004800000940000000602000000240000525341310004000001000100dde965e6172e019ac82c2639ffe494dd2e7dd16347c34762a05732b492e110f2e4e2e1b5ef2d85c848ccfb671ee20a47c8d1376276708dc30a90ff1121b647ba3b7259a6bc383b2034938ef0e275b58b920375ac605076178123693c6c4f1331661a62eba28c249386855637780e3ff5f23a6d854700eaa6803ef48907513b92")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleToAttribute(@"NServiceBus.Hosting.Azure.Tests, PublicKey=0024000004800000940000000602000000240000525341310004000001000100dde965e6172e019ac82c2639ffe494dd2e7dd16347c34762a05732b492e110f2e4e2e1b5ef2d85c848ccfb671ee20a47c8d1376276708dc30a90ff1121b647ba3b7259a6bc383b2034938ef0e275b58b920375ac605076178123693c6c4f1331661a62eba28c249386855637780e3ff5f23a6d854700eaa6803ef48907513b92")]
 [assembly: System.Runtime.InteropServices.ComVisibleAttribute(false)]
-[assembly: System.Runtime.Versioning.TargetFrameworkAttribute(".NETFramework,Version=v4.5.2", FrameworkDisplayName=".NET Framework 4.5.2")]
+[assembly: System.Runtime.Versioning.TargetFrameworkAttribute(".NETFramework,Version=v4.7.2", FrameworkDisplayName=".NET Framework 4.7.2")]
 namespace NServiceBus
 {
-    [System.ObsoleteAttribute("The AsA_Worker role is obsoleted. Manually configure the EndpointConfiguration ob" +
-        "ject via IConfigureThisEndpoint.Customize(EndpointConfiguration endpointConfigur" +
-        "ation). Will be removed in version 9.0.0.", true)]
-    public interface AsA_Worker { }
-    public class static ConfigureAzureIntegration
-    {
-        [System.ObsoleteAttribute("Use code-based configuration instead. The member currently throws a NotImplemente" +
-            "dException. Will be removed in version 9.0.0.", true)]
-        public static void AzureConfigurationSource(this NServiceBus.EndpointConfiguration config, string configurationPrefix = null) { }
-    }
+    [System.ObsoleteAttribute("The Azure cloud services host has been deprecated. It is recommended to switch to" +
+        " self-hosting or the generic host instead. See the upgrade guide and docs for al" +
+        "ternatives. Will be removed in version 10.0.0.", true)]
     public class static EndpointConfigurationExtensions
     {
+        [System.ObsoleteAttribute(@"The Azure cloud services host has been deprecated. It is recommended to switch to self-hosting or the generic host instead. See the upgrade guide and docs for alternatives. The member currently throws a NotImplementedException. Will be removed in version 10.0.0.", true)]
         public static void DefineEndpointName(this NServiceBus.EndpointConfiguration configuration, string endpointName) { }
     }
-    [System.ObsoleteAttribute("The azure cloud services host will be deprecated in the next major version. See u" +
-        "pgrade guide and documentation for alternatives. Will be treated as an error fro" +
-        "m version 9.0.0. Will be removed in version 10.0.0.", false)]
+    [System.ObsoleteAttribute("The Azure cloud services host has been deprecated. It is recommended to switch to" +
+        " self-hosting or the generic host instead. See the upgrade guide and docs for al" +
+        "ternatives. Will be removed in version 10.0.0.", true)]
     public class static EndpointStartableAndStoppableExtensions
     {
+        [System.ObsoleteAttribute(@"The Azure cloud services host has been deprecated. It is recommended to switch to self-hosting or the generic host instead. See the upgrade guide and docs for alternatives. The member currently throws a NotImplementedException. Will be removed in version 10.0.0.", true)]
         public static void RunWhenEndpointStartsAndStops(this NServiceBus.EndpointConfiguration configuration, NServiceBus.IWantToRunWhenEndpointStartsAndStops startableAndStoppable) { }
     }
+    [System.ObsoleteAttribute("The Azure cloud services host has been deprecated. It is recommended to switch to" +
+        " self-hosting or the generic host instead. See the upgrade guide and docs for al" +
+        "ternatives. Will be removed in version 10.0.0.", true)]
     public class HostingSettings
     {
+        [System.ObsoleteAttribute(@"The Azure cloud services host has been deprecated. It is recommended to switch to self-hosting or the generic host instead. See the upgrade guide and docs for alternatives. The member currently throws a NotImplementedException. Will be removed in version 10.0.0.", true)]
         public HostingSettings(string connectionString) { }
+        [System.ObsoleteAttribute(@"The Azure cloud services host has been deprecated. It is recommended to switch to self-hosting or the generic host instead. See the upgrade guide and docs for alternatives. The member currently throws a NotImplementedException. Will be removed in version 10.0.0.", true)]
         public bool AutoUpdate { get; set; }
+        [System.ObsoleteAttribute(@"The Azure cloud services host has been deprecated. It is recommended to switch to self-hosting or the generic host instead. See the upgrade guide and docs for alternatives. The member currently throws a NotImplementedException. Will be removed in version 10.0.0.", true)]
         public string Container { get; set; }
+        [System.ObsoleteAttribute(@"The Azure cloud services host has been deprecated. It is recommended to switch to self-hosting or the generic host instead. See the upgrade guide and docs for alternatives. The member currently throws a NotImplementedException. Will be removed in version 10.0.0.", true)]
         public string LocalResource { get; set; }
+        [System.ObsoleteAttribute(@"The Azure cloud services host has been deprecated. It is recommended to switch to self-hosting or the generic host instead. See the upgrade guide and docs for alternatives. The member currently throws a NotImplementedException. Will be removed in version 10.0.0.", true)]
         public bool RecycleRoleOnError { get; set; }
+        [System.ObsoleteAttribute(@"The Azure cloud services host has been deprecated. It is recommended to switch to self-hosting or the generic host instead. See the upgrade guide and docs for alternatives. The member currently throws a NotImplementedException. Will be removed in version 10.0.0.", true)]
         public Microsoft.WindowsAzure.Storage.CloudStorageAccount StorageAccount { get; }
+        [System.ObsoleteAttribute(@"The Azure cloud services host has been deprecated. It is recommended to switch to self-hosting or the generic host instead. See the upgrade guide and docs for alternatives. The member currently throws a NotImplementedException. Will be removed in version 10.0.0.", true)]
         public int TimeToWaitUntilProcessIsKilled { get; set; }
+        [System.ObsoleteAttribute(@"The Azure cloud services host has been deprecated. It is recommended to switch to self-hosting or the generic host instead. See the upgrade guide and docs for alternatives. The member currently throws a NotImplementedException. Will be removed in version 10.0.0.", true)]
         public int UpdateInterval { get; set; }
     }
-    [System.ObsoleteAttribute("The azure cloud services host will be deprecated in the next major version. See u" +
-        "pgrade guide and documentation for alternatives. Will be treated as an error fro" +
-        "m version 9.0.0. Will be removed in version 10.0.0.", false)]
+    [System.ObsoleteAttribute("The Azure cloud services host has been deprecated. It is recommended to switch to" +
+        " self-hosting or the generic host instead. See the upgrade guide and docs for al" +
+        "ternatives. Will be removed in version 10.0.0.", true)]
     public interface IConfigureThisEndpoint
     {
+        [System.ObsoleteAttribute("The Azure cloud services host has been deprecated. It is recommended to switch to" +
+            " self-hosting or the generic host instead. See the upgrade guide and docs for al" +
+            "ternatives. Will be removed in version 10.0.0.", true)]
         void Customize(NServiceBus.EndpointConfiguration configuration);
     }
-    [System.ObsoleteAttribute("The azure cloud services host will be deprecated in the next major version. See u" +
-        "pgrade guide and documentation for alternatives. Will be treated as an error fro" +
-        "m version 9.0.0. Will be removed in version 10.0.0.", false)]
+    [System.ObsoleteAttribute("The Azure cloud services host has been deprecated. It is recommended to switch to" +
+        " self-hosting or the generic host instead. See the upgrade guide and docs for al" +
+        "ternatives. Will be removed in version 10.0.0.", true)]
     public interface IConfigureThisHost
     {
+        [System.ObsoleteAttribute("The Azure cloud services host has been deprecated. It is recommended to switch to" +
+            " self-hosting or the generic host instead. See the upgrade guide and docs for al" +
+            "ternatives. Will be removed in version 10.0.0.", true)]
         NServiceBus.HostingSettings Configure();
     }
-    [System.ObsoleteAttribute("The azure cloud services host will be deprecated in the next major version. See u" +
-        "pgrade guide and documentation for alternatives. Will be treated as an error fro" +
-        "m version 9.0.0. Will be removed in version 10.0.0.", false)]
+    [System.ObsoleteAttribute("The Azure cloud services host has been deprecated. It is recommended to switch to" +
+        " self-hosting or the generic host instead. See the upgrade guide and docs for al" +
+        "ternatives. Will be removed in version 10.0.0.", true)]
     public interface IWantToRunWhenEndpointStartsAndStops
     {
+        [System.ObsoleteAttribute("The Azure cloud services host has been deprecated. It is recommended to switch to" +
+            " self-hosting or the generic host instead. See the upgrade guide and docs for al" +
+            "ternatives. Will be removed in version 10.0.0.", true)]
         System.Threading.Tasks.Task Start(NServiceBus.IMessageSession session);
+        [System.ObsoleteAttribute("The Azure cloud services host has been deprecated. It is recommended to switch to" +
+            " self-hosting or the generic host instead. See the upgrade guide and docs for al" +
+            "ternatives. Will be removed in version 10.0.0.", true)]
         System.Threading.Tasks.Task Stop(NServiceBus.IMessageSession session);
     }
-    [System.ObsoleteAttribute("The azure cloud services host will be deprecated in the next major version. See u" +
-        "pgrade guide and documentation for alternatives. Will be treated as an error fro" +
-        "m version 9.0.0. Will be removed in version 10.0.0.", false)]
+    [System.ObsoleteAttribute("The Azure cloud services host has been deprecated. It is recommended to switch to" +
+        " self-hosting or the generic host instead. See the upgrade guide and docs for al" +
+        "ternatives. Will be removed in version 10.0.0.", true)]
     public class NServiceBusRoleEntrypoint
     {
+        [System.ObsoleteAttribute(@"The Azure cloud services host has been deprecated. It is recommended to switch to self-hosting or the generic host instead. See the upgrade guide and docs for alternatives. The member currently throws a NotImplementedException. Will be removed in version 10.0.0.", true)]
         public NServiceBusRoleEntrypoint() { }
+        [System.ObsoleteAttribute(@"The Azure cloud services host has been deprecated. It is recommended to switch to self-hosting or the generic host instead. See the upgrade guide and docs for alternatives. The member currently throws a NotImplementedException. Will be removed in version 10.0.0.", true)]
         public void Start() { }
+        [System.ObsoleteAttribute(@"The Azure cloud services host has been deprecated. It is recommended to switch to self-hosting or the generic host instead. See the upgrade guide and docs for alternatives. The member currently throws a NotImplementedException. Will be removed in version 10.0.0.", true)]
         public void Stop() { }
     }
 }
