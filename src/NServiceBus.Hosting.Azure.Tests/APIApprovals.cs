@@ -10,7 +10,7 @@
         [Test]
         public void Approve()
         {
-            var publicApi = ApiGenerator.GeneratePublicApi(typeof(GenericHost).Assembly);
+            var publicApi = ApiGenerator.GeneratePublicApi(typeof(AzureHostingInternalType).Assembly);
             Approver.Verify(publicApi);
         }
     }
