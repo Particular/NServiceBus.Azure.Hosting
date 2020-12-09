@@ -10,7 +10,10 @@
         [Test]
         public void Approve()
         {
-            var publicApi = ApiGenerator.GeneratePublicApi(typeof(AzureHostingInternalType).Assembly);
+            var publicApi = typeof(AzureHostingInternalType).Assembly.GeneratePublicApi(new ApiGeneratorOptions
+            {
+                ExcludeAttributes = new[] { "System.Runtime.Versioning.TargetFrameworkAttribute", "System.Reflection.AssemblyMetadataAttribute" }
+            });
             Approver.Verify(publicApi);
         }
     }
