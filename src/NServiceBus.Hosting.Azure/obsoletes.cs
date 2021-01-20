@@ -76,7 +76,7 @@ namespace NServiceBus
             RemoveInVersion = "10.0")]
         public string Container
         {
-            get => throw new NotImplementedException(); 
+            get => throw new NotImplementedException();
             set => throw new NotImplementedException();
         }
 
