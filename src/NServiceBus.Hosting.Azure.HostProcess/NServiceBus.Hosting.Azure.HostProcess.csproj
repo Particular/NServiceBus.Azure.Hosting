@@ -5,7 +5,6 @@
     <TargetFramework>net452</TargetFramework>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>$(SolutionDir)NServiceBus.snk</AssemblyOriginatorKeyFile>
-    <OutputPath>..\..\binaries\</OutputPath>
     <NoWarn>$(NoWarn);CS0618</NoWarn>
     <Description>The process used when sharing an azure instance between multiple NServiceBus endpoints</Description>
   </PropertyGroup>
